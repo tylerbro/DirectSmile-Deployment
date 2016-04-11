@@ -19,6 +19,6 @@ job('DSMG_Deployment__' + CUSTOMER_NAME) {
 		}
 	}
 	steps {
-        batchFile(readFileFromWorkspace('DSMG_Deployment.bat'))
+        batchFile('bat_Deployment\DSMG_Deployment.bat')
     }
 }

@@ -12,13 +12,13 @@ job('DSMG_Deployment__' + CUSTOMER_NAME) {
 			remote {
 				url ('https://github.com/Nobukins/DirectSmile-Deployment')
 			}
-			branch (*/master)
+			branch ('*/master')
 			extensions {
                 cleanAfterCheckout()
 			}
 		}
 	}
 	steps {
-        batchFile('bat_Deployment\DSMG_Deployment.bat')
+        batchFile('bat_Deployment/DSMG_Deployment.bat')
     }
 }

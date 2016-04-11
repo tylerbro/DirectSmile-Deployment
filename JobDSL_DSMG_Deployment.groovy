@@ -1,6 +1,7 @@
 //ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input
 job('DSMG_Deployment__' + CUSTOMER_NAME) {
     parameters {
+		stringParam('CUSTOMER_NAME', CUSTOMER_NAME,'Customer company name')
         booleanParam('DSMG_Deploy', false, 'Uncheck - Check run script in console log, Check - Execute on the target')
 		stringParam('FQDN', FQDN,'Fully Qualified Domain Name of the DSMI website')
 		stringParam('DSMG_INSTALLDIR', 'C:\\Program Files (x86)\\DirectSmile Generator', 'Installation target directory for DSMOnline Backend')
@@ -19,6 +20,9 @@ job('DSMG_Deployment__' + CUSTOMER_NAME) {
 		}
 	}
 	steps {
+		dsl {
+				external('JobDSL_DSMG_Deployment.groovy')
+			}
         batchFile('bat_Deployment/DSMG_Deployment.bat')
     }
 }

@@ -11,10 +11,9 @@ ECHO +--------------------------------------------------------------------------
 ECHO
 IF "%Deploy_Version%" == "DSMG_LATEST_RELEASE" (
 	SET REMOTE_INSTALLER_WEB_DIRECTORY=http://directsmile.blob.core.windows.net/installer
-	SET INSTALLER_NAME=dsmg.msi ) 
-		else If "%Deploy_Version%" == "DSMG_SPECIFIC_VERSION" (
+	SET INSTALLER_NAME=dsmg.msi ) else IF "%Deploy_Version%" == "DSMG_SPECIFIC_VERSION" (
 		SET REMOTE_INSTALLER_WEB_DIRECTORY=http://ftp.directsmile.de/download/NonReleaseVersion
-		SET INSTALLER_NAME=DSMGenInstaller-%DSMG_VERSION_NUMBER%.msi
+		SET INSTALLER_NAME=DSMGenInstaller-%DSMG_VERSION_NUMBER%.msi )
 
 ECHO We take installer from %REMOTE_INSTALLER_WEB_DIRECTORY%/%INSTALLER_NAME%
 		

@@ -1,7 +1,8 @@
 //	ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input	
 
-if(!DSMOURL){	def DSMOURL= 'http://' + FQDN + '/dsmo'}	
-if(!DSMXURL){	def DSMXURL = 'http://' + FQDN}
+def DSMOURL= 'http://' + FQDN + '/dsmo'	
+def DSMXURL = 'http://' + FQDN
+
 if(!WEBSITES){	def WEBSITES = 'C:\\inetpub\\wwwroot'	}
 if(!SQLINSTANCENAME){	def SQLINSTANCENAME = '.'}
 if(!DSMX_SQLDATABASENAME){	def DSMX_SQLDATABASENAME = 'LP3_DSM'}

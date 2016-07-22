@@ -48,7 +48,7 @@ DEBUG_RUN = 'true'
 job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	description('Update DSMX to one of Release, Release Candidate, or Developement version')
     parameters {
-        booleanParam('DEBUG_RUN', DEBUG_RUN, '<p>If DEBUG_RUN=True all commands will be echoed to the screeb only. Target system will not be touched.</p>')
+        booleanParam('DEBUG_RUN', DEBUG_RUN.toBoolean(), '<p>If DEBUG_RUN=True all commands will be echoed to the screeb only. Target system will not be touched.</p>')
 		stringParam('CUSTOMER_NAME', CUSTOMER_NAME,'<h3>Customer Name</h3><p>this value become as post-fix for generated deploy jobs</p>')
 		stringParam('FQDN', FQDN ,'<h3>Fully Qualified Domain Name</h3><p>Customer server FQDN which listedn by DSMInstallation Service</p>')
 		stringParam('DSMXURL',DSMXURL,'<p>http:// prefix is needed</p>')

@@ -42,7 +42,9 @@ if(!env['APPPOOLNAME']){	def APPPOOLNAME = 'DefaultAppPool'}
 if(!env['STATICCOMPRESSIONOPTION']){	def STATICCOMPRESSIONOPTION = 'false'}
 
 if(!env['DSMX_VERSION_NUMBER']){	def DSMX_VERSION_NUMBER = '7.2.2.153'}
-if('DEBUG_RUN'){	def DEBUG_RUN = 'true'}
+if('DEBUG_RUN'){	
+def DEBUG_RUN = 'true'
+}
 job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	description('Update DSMX to one of Release, Release Candidate, or Developement version')
     parameters {

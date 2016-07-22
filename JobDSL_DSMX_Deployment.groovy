@@ -1,50 +1,50 @@
 //	ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input	
 
-def DSMOURL= 'http://' + FQDN + '/dsmo'	
-def DSMXURL = 'http://' + FQDN
-
-def env = System.getenv()
-def version = env['currentversion']
-
-if(!env['WEBSITES']){	def WEBSITES = 'C:\\inetpub\\wwwroot'	}
-if(!env['SQLINSTANCENAME']){	def SQLINSTANCENAME = '.'}
-if(!env['DSMX_SQLDATABASENAME']){	def DSMX_SQLDATABASENAME = 'LP3_DSM'}
-if(!env['SQL_AUTHENTICATION']){	def SQL_AUTHENTICATION = 'false'}
-if(!env['SQLUSERNAME']){	def SQLUSERNAME = ''}
-if(!env['SQLPASSWORD']){	def SQLPASSWORD = ''}
-if(!env['CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER']){	def CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'}
-if(!env['IISAPPIDENTITYUSERNAME']){	def IISAPPIDENTITYUSERNAME = ''}
-if(!env['IISAPPIDENTITYPASSWORD']){	def IISAPPIDENTITYPASSWORD = ''}
-if(!env['CONFIGURE_LOGINUSERFORBACKEND']){	def CONFIGURE_LOGINUSERFORBACKEND = 'false'}
-if(!env['SERVICE_USERNAME']){	def SERVICE_USERNAME = ''}
-if(!env['SERVICE_PASSWORD']){	def SERVICE_PASSWORD = ''}
-if(!env['SERVICE_DOMAIN']){	def SERVICE_DOMAIN = ''}
-if(!env['DSM_BACKUP']){	def DSM_BACKUP = 'C:\\DSM_Backup'}
-if(!env['BACKUP_DSMXCONFIGURATIONFILES']){	def BACKUP_DSMXCONFIGURATIONFILES = 'true'}
-if(!env['BACKUP_DSMX_LANDINGPAGEDATA']){	def BACKUP_DSMX_LANDINGPAGEDATA = 'false'}
-if(!env['DATABASE_BACKUP']){	def DATABASE_BACKUP = 'true'}
-if(!env['SHRINK_DATABASE']){	def SHRINK_DATABASE = 'true'}
-if(!env['DB_TIMEOUT']){	def DB_TIMEOUT = '30'}
-
-if(!env['EMAILBACKEND']){	def EMAILBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Email Backend'}
-if(!env['TRIGGERBACKEND']){	def TRIGGERBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Trigger Service'}
-if(!env['LANDINGPAGEDATADIR']){	def LANDINGPAGEDATADIR = 'C:\\inetpub\\wwwroot\\LandingPageData'}
+if (binding.variables.containsKey('DEBUG_RUN')) {
+	//Inherite value from env var comes Jenkins
+} else {
+    DEBUG_RUN = 'true'
+	DSMOURL= 'http://' + FQDN + '/dsmo'	
+	DSMXURL = 'http://' + FQDN
 	
-if(!env['SHAREDSETTINGSFILE']){	def SHAREDSETTINGSFILE = ''}
-if(!env['DSMXSERVERKEY']){	def DSMXSERVERKEY = ''}
-if(!env['DEFAULTREDIRECTURL']){	def DEFAULTREDIRECTURL = ''}
-if(!env['DSMIMASTERURL']){	def DSMIMASTERURL = ''}
-if(!env['DSMIFRONTENDURL']){	def DSMIFRONTENDURL = ''}
-if(!env['FAILOVERENDPOINT']){	def FAILOVERENDPOINT = ''}
-	
-if(!env['WEBSITENAME']){	def WEBSITENAME = 'Default Web Site'}
-if(!env['APPPOOLNAME']){	def APPPOOLNAME = 'DefaultAppPool'}
-if(!env['STATICCOMPRESSIONOPTION']){	def STATICCOMPRESSIONOPTION = 'false'}
+	WEBSITES = 'C:\\inetpub\\wwwroot'
+	SQLINSTANCENAME = '.'
+	DSMX_SQLDATABASENAME = 'LP3_DSM'
+	SQL_AUTHENTICATION = 'false'
+	SQLUSERNAME = ''
+	SQLPASSWORD = ''
+	CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
+	IISAPPIDENTITYUSERNAME = ''
+	IISAPPIDENTITYPASSWORD = ''
+	CONFIGURE_LOGINUSERFORBACKEND = 'false'
+	SERVICE_USERNAME = ''
+	SERVICE_PASSWORD = ''
+	SERVICE_DOMAIN = ''
+	DSM_BACKUP = 'C:\\DSM_Backup'
+	BACKUP_DSMXCONFIGURATIONFILES = 'true'
+	BACKUP_DSMX_LANDINGPAGEDATA = 'false'
+	DATABASE_BACKUP = 'true'
+	SHRINK_DATABASE = 'true'
+	DB_TIMEOUT = '30'
 
-if(!env['DSMX_VERSION_NUMBER']){	def DSMX_VERSION_NUMBER = '7.2.2.153'}
+	EMAILBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Email Backend'
+	TRIGGERBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Trigger Service'
+	LANDINGPAGEDATADIR = 'C:\\inetpub\\wwwroot\\LandingPageData'
 
-def DEBUG_RUN = 'true'
+	SHAREDSETTINGSFILE = ''
+	DSMXSERVERKEY = ''
+	DEFAULTREDIRECTURL = ''
+	DSMIMASTERURL = ''
+	DSMIFRONTENDURL = ''
+	FAILOVERENDPOINT = ''
 
+	WEBSITENAME = 'Default Web Site'
+	APPPOOLNAME = 'DefaultAppPool'
+	STATICCOMPRESSIONOPTION = 'false'
+
+	DSMX_VERSION_NUMBER = '7.2.2.153'
+
+}
 job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	description('Update DSMX to one of Release, Release Candidate, or Developement version')
     parameters {

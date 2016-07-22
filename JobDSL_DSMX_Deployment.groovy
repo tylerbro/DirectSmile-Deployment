@@ -42,7 +42,7 @@ if(!env['APPPOOLNAME']){	def APPPOOLNAME = 'DefaultAppPool'}
 if(!env['STATICCOMPRESSIONOPTION']){	def STATICCOMPRESSIONOPTION = 'false'}
 
 if(!env['DSMX_VERSION_NUMBER']){	def DSMX_VERSION_NUMBER = '7.2.2.153'}
-if(DEBUG_RUN == null){	
+if(DEBUG_RUN == !null){	
 DEBUG_RUN = 'true'
 }
 job('DSMX_Deployment__' + CUSTOMER_NAME) {

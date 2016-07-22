@@ -27,7 +27,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	SERVICE_USERNAME = ''
 	SERVICE_PASSWORD = ''
 	SERVICE_DOMAIN = ''
-	DSM_BACKUP = 'C:\DSM_Backup'
+	DSM_BACKUP = 'C:\\DSM_Backup'
 	BACKUP_DSMICONFIGURATIONFILES = 'true'
 	DATABASE_BACKUP = 'true'
 	SHRINK_DATABASE = 'true'

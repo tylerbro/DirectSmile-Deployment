@@ -43,7 +43,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	STATICCOMPRESSIONOPTION = 'false'
 
 	DSMX_VERSION_NUMBER = '7.2.2.153'
-
+	LOCAL_WEB_DIR = ''
 }
 job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	description('Update DSMX to one of Release, Release Candidate, or Developement version')

@@ -89,7 +89,7 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 		stringParam('SERVICE_PASSWORD',SERVICE_PASSWORD,'')
 		stringParam('SERVICE_DOMAIN',SERVICE_DOMAIN,'Service user domain that is executed')
 
-		stringParam('DSM_BackUp',DSM_BackUp,'Location of backup files')
+		stringParam('DSM_BACKUP',DSM_BACKUP,'Location of backup files')
 		booleanParam('BACKUP_DSMICONFIGURATIONFILES',BACKUP_DSMICONFIGURATIONFILES.toBoolean(),'Take a backup of DSMI configuration files and DSM Components')
 		booleanParam('DATABASE_BACKUP',DATABASE_BACKUP.toBoolean(),'Take a backup of DSMI database')
 		stringParam('SHRINK_DATABASE',SHRINK_DATABASE,'Whether shrink database when it is taking a backup')

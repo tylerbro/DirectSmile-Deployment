@@ -121,7 +121,6 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 			}
 		}
   }
-}        
     steps {
         dsl {
             external('JobDSL_DSMI_Deployment.groovy')

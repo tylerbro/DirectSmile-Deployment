@@ -1,56 +1,55 @@
-/*	ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input
-	If you'd like to use this JobDSL for initial seed creation, comment in below lines with your input
+//	ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input	
 
-	def CUSTOMER_NAME = ''
-	def FQDN = ''
-	def DSMOURL = ''
-	def DSMXURL = ''
-	def WEBSITES = 'C:\inetpub\wwwroot'	
-	def SQLINSTANCENAME = '.'
-	def DSMX_SQLDATABASENAME = 'LP3_DSM'
-	def SQL_AUTHENTICATION = 'false'
-	def SQLUSERNAME = ''
-	def SQLPASSWORD = ''
-	def CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
-	def IISAPPIDENTITYUSERNAME = ''
-	def IISAPPIDENTITYPASSWORD = ''
-	def CONFIGURE_LOGINUSERFORBACKEND = 'false'
-	def SERVICE_USERNAME = ''
-	def SERVICE_PASSWORD = ''
-	def SERVICE_DOMAIN = ''
-	def DSM_BACKUP = 'C:\DSM_Backup'
-	def BACKUP_DSMXCONFIGURATIONFILES = 'true'
-	def BACKUP_DSMX_LANDINGPAGEDATA = 'false'
-	def DATABASE_BACKUP = 'true'
-	def SHRINK_DATABASE = 'true'
-	def DB_TIMEOUT = '30'
+if(!DSMOURL){	def DSMOURL= 'http://' + FQDN + '/dsmo'}	
+if(!DSMXURL){	def DSMXURL = 'http://' + FQDN}
+if(!WEBSITES){	def WEBSITES = 'C:\inetpub\wwwroot'	}
+if(!SQLINSTANCENAME){	def SQLINSTANCENAME = '.'}
+if(!DSMX_SQLDATABASENAME){	def DSMX_SQLDATABASENAME = 'LP3_DSM'}
+if(!SQL_AUTHENTICATION){	def SQL_AUTHENTICATION = 'false'}
+if(!SQLUSERNAME){	def SQLUSERNAME = ''}
+if(!SQLPASSWORD){	def SQLPASSWORD = ''}
+if(!CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER){	def CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'}
+if(!IISAPPIDENTITYUSERNAME){	def IISAPPIDENTITYUSERNAME = ''}
+if(!IISAPPIDENTITYPASSWORD){	def IISAPPIDENTITYPASSWORD = ''}
+if(!CONFIGURE_LOGINUSERFORBACKEND){	def CONFIGURE_LOGINUSERFORBACKEND = 'false'}
+if(!SERVICE_USERNAME){	def SERVICE_USERNAME = ''}
+if(!SERVICE_PASSWORD){	def SERVICE_PASSWORD = ''}
+if(!SERVICE_DOMAIN){	def SERVICE_DOMAIN = ''}
+if(!DSM_BACKUP){	def DSM_BACKUP = 'C:\DSM_Backup'}
+if(!BACKUP_DSMXCONFIGURATIONFILES){	def BACKUP_DSMXCONFIGURATIONFILES = 'true'}
+if(!BACKUP_DSMX_LANDINGPAGEDATA){	def BACKUP_DSMX_LANDINGPAGEDATA = 'false'}
+if(!DATABASE_BACKUP){	def DATABASE_BACKUP = 'true'}
+if(!SHRINK_DATABASE){	def SHRINK_DATABASE = 'true'}
+if(!DB_TIMEOUT){	def DB_TIMEOUT = '30'}
 
-	def EMAILBACKEND = 'C:\Program Files (x86)\DirectSmile\DirectSmile Email Backend'
-	def TRIGGERBACKEND = 'C:\Program Files (x86)\DirectSmile\DirectSmile Trigger Service'
-	def LANDINGPAGEDATADIR = 'C:\inetpub\wwwroot\LandingPageData'
+if(!EMAILBACKEND){	def EMAILBACKEND = 'C:\Program Files (x86)\DirectSmile\DirectSmile Email Backend'}
+if(!TRIGGERBACKEND){	def TRIGGERBACKEND = 'C:\Program Files (x86)\DirectSmile\DirectSmile Trigger Service'}
+if(!LANDINGPAGEDATADIR){	def LANDINGPAGEDATADIR = 'C:\inetpub\wwwroot\LandingPageData'}
 	
-	def SHAREDSETTINGSFILE = ''
-	def DSMXSERVERKEY = ''
-	def DEFAULTREDIRECTURL = ''
-	def DSMIMASTERURL = ''
-	def DSMIFRONTENDURL = ''
-	def FAILOVERENDPOINT = ''
+if(!SHAREDSETTINGSFILE){	def SHAREDSETTINGSFILE = ''}
+if(!DSMXSERVERKEY){	def DSMXSERVERKEY = ''}
+if(!DEFAULTREDIRECTURL){	def DEFAULTREDIRECTURL = ''}
+if(!DSMIMASTERURL){	def DSMIMASTERURL = ''}
+if(!DSMIFRONTENDURL){	def DSMIFRONTENDURL = ''}
+if(!FAILOVERENDPOINT){	def FAILOVERENDPOINT = ''}
 	
-	def WEBSITENAME = 'Default Web Site'
-	def APPPOOLNAME = 'DefaultAppPool'
-	def STATICCOMPRESSIONOPTION = 'false'
-*/
+if(!WEBSITENAME){	def WEBSITENAME = 'Default Web Site'}
+if(!APPPOOLNAME){	def APPPOOLNAME = 'DefaultAppPool'}
+if(!STATICCOMPRESSIONOPTION){	def STATICCOMPRESSIONOPTION = 'false'}
+
+if(!DSMX_VERSION_NUMBER){	def DSMX_VERSION_NUMBER = '7.2.2.153'}
+if(!DEBUG_RUN){	def DEBUG_RUN = 'true'}
 job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	description('Update DSMX to one of Release, Release Candidate, or Developement version')
     parameters {
-        booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screeb only. Target system will not be touched.</p>')
+        booleanParam('DEBUG_RUN', DEBUG_RUN, '<p>If DEBUG_RUN=True all commands will be echoed to the screeb only. Target system will not be touched.</p>')
 		stringParam('CUSTOMER_NAME', CUSTOMER_NAME,'<h3>Customer Name</h3><p>this value become as post-fix for generated deploy jobs</p>')
 		stringParam('FQDN', FQDN ,'<h3>Fully Qualified Domain Name</h3><p>Customer server FQDN which listedn by DSMInstallation Service</p>')
 		stringParam('DSMXURL',DSMXURL,'<p>http:// prefix is needed</p>')
 		stringParam('DSMOURL',DSMOURL,'<p>http:// prefix and /dsmo as postfix are needed</p>')		
 		
 		choiceParam('DEPLOY_VERSION', ['DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE','DSMX_SPECIFIC_VERSION'],'Select version you want to deploy')
-		stringParam('DSMX_VERSION_NUMBER','7.2.1.142', '<p>This field is only relevant when you select "<strong>DSMX_SPECIFIC_VERSION</strong>" in above selection menu.</p> <p>&nbsp;</p> <p>The file name should have<span style="background-color: #ffff00;"> "</span><strong><span style="background-color: #ffff00;">dsmx-</span></strong><span style="background-color: #ffff00;">"</span> as its prefix. You only need to input version number</p> <ul> <li>Example input: <strong>7.2.2.153</strong></li> </ul> <p>While we create download link, we add "dsmx-" + "%DSMX_VERSION_NUMBER%" + ".msi" automatically.</p> <p>&nbsp;</p> <p>In case you set value in <strong>LOCAL_WEB_DIR</strong>, then this value should be exactly file name of .msi you gonna execute.</p> <ul> <li>Example input: <strong>dsmx-7.2.2.153</strong></li> </ul>')	
+		stringParam('DSMX_VERSION_NUMBER','DSMX_VERSION_NUMBER', '<p>This field is only relevant when you select "<strong>DSMX_SPECIFIC_VERSION</strong>" in above selection menu.</p> <p>&nbsp;</p> <p>The file name should have<span style="background-color: #ffff00;"> "</span><strong><span style="background-color: #ffff00;">dsmx-</span></strong><span style="background-color: #ffff00;">"</span> as its prefix. You only need to input version number</p> <ul> <li>Example input: <strong>7.2.2.153</strong></li> </ul> <p>While we create download link, we add "dsmx-" + "%DSMX_VERSION_NUMBER%" + ".msi" automatically.</p> <p>&nbsp;</p> <p>In case you set value in <strong>LOCAL_WEB_DIR</strong>, then this value should be exactly file name of .msi you gonna execute.</p> <ul> <li>Example input: <strong>dsmx-7.2.2.153</strong></li> </ul>')	
 		stringParam('LOCAL_WEB_DIR', LOCAL_WEB_DIR, '<p>You can use local directory path as value in here.as well as UNC path is supported</p> <p>Please ensure that you provide "<strong>/</strong>"(slash) for URL case in the end, "<strong>\\</strong>"(back slash) in case of UNC path.</p> <ul> <li>Example input: (URL) <a href="http://myserver/DirectSmile/Installer/">http://myserver/DirectSmile/Installer/<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\</a></li> </ul>')		
 		
 		stringParam('WEBSITES', WEBSITES, 'UNC Path for the root website directory')

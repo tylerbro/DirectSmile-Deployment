@@ -18,7 +18,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	SQLPASSWORD = ''
 	DSMGPATH = 'C:\\Program Files (x86)\\DirectSmile Generator'
 	DSMUSERS = 'C:\\DSMUsers'
-	DSMUTEMP = 'C:\\DSMTemp'
+	DSMTEMP = 'C:\\DSMTemp'
 	INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Online Backend'
 	CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
 	IISAPPIDENTITYUSERNAME = ''

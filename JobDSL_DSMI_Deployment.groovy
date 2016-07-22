@@ -96,8 +96,8 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 		stringParam('DB_TIMEOUT',DB_TIMEOUT,'Timeout range of database backup')
 
 		stringParam('DSMIII',DSMIII,'DSMI Instance Identifier for systems with multiple DSMI instances.')
-		booleanParam('DSMI_Replication_Master',DSMI_Replication_Master.toBoolean(),'Master Server of the Replication DSMI group')
-		booleanParam('DSMI_Replication_Slave',DSMI_Replication_Slave.toBoolean(),'Slave Server of the Replication DSMI group')
+		booleanParam('DSMI_REPLICATION_MASTER',DSMI_REPLICATION_MASTER.toBoolean(),'Master Server of the Replication DSMI group')
+		booleanParam('DSMI_REPLICATION_SLAVE',DSMI_REPLICATION_SLAVE.toBoolean(),'Slave Server of the Replication DSMI group')
 		booleanParam('AVOID_USER_SESSION',AVOID_USER_SESSION.toBoolean(),'If true DSMI Backend is configured to run as native service without user session.')
 
 		booleanParam('NOASS',NOASS.toBoolean(),'<p>Not execute Server Assessment while DSMI Installation</p></br><p>True = Skip Assessment, False = Execute Assessment</p>')

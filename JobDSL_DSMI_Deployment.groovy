@@ -1,49 +1,50 @@
-/*	ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input
-	If you'd like to use this JobDSL for initial seed creation, comment in below lines with your input
-
-	def CUSTOMER_NAME = ''
-	def FQDN = ''
-	def DSMOURL = ''
-	def DSMXURL = ''
-	def WEBSITES = 'C:\inetpub\wwwroot'	
-	def DIRPROPERTY1 = 'C:\inetpub\wwwroot\DSMO'
-	def CNNAME = ''
-	def SQLINSTANCENAME = '.'
-	def DSMI_SQLDATABASENAME = 'dsmodb'
-	def IMGDBNAME = 'dsmoImages'
-	def SQL_AUTHENTICATION = 'false'
-	def SQLUSERNAME = ''
-	def SQLPASSWORD = ''
-	def DSMGPATH = 'C:\Program Files (x86)\DirectSmile Generator'
-	def DSMUSERS = 'C:\DSMUsers'
-	def DSMUTEMP = 'C:\DSMTemp'
-	def INSTALLDIR = 'C:\Program Files (x86)\DirectSmile\DirectSmile Online Backend'
-	def CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
-	def IISAPPIDENTITYUSERNAME = ''
-	def IISAPPIDENTITYPASSWORD = ''
-	def CONFIGURE_LOGINUSERFORBACKEND = 'false'
-	def SERVICE_USERNAME = ''
-	def SERVICE_PASSWORD = ''
-	def SERVICE_DOMAIN = ''
-	def DSM_BACKUP = 'C:\DSM_Backup'
-	def BACKUP_DSMICONFIGURATIONFILES = 'true'
-	def DATABASE_BACKUP = 'true'
-	def SHRINK_DATABASE = 'true'
-	def DB_TIMEOUT = '30'
-	def DSMIII = 'DSMI01'
-	def DSMI_REPLICATION_MASTER = 'false'
-	def DSMI_REPLICATION_SLAVE = 'false'
-	def AVOID_USER_SESSION = 'false'
-	def NOASS = '1'
-	def BACKENDROUTINGARG = 'dsmi'
-	def SHORTTIMEOUT = '20'
-	def CROSSDOMAINURI = '*'
-	def IISAPPNAME = 'DSMO'
-	def SERVICE_EXE_NAME = 'DSMOnlineBackend.exe'
-	def LOG_LEVEL = '1'
-	def ENABLEWF = '1'
-
-*/
+//	ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input
+if (binding.variables.containsKey('DEBUG_RUN')) {
+	//Inherite value from env var comes Jenkins
+} else {
+    DEBUG_RUN = 'true'
+	DSMI_VERSION_NUMBER = '7.2.2.201'
+	LOCAL_WEB_DIR = ''
+	DSMOURL = ''
+	DSMXURL = ''
+	WEBSITES = 'C:\inetpub\wwwroot'	
+	DIRPROPERTY1 = 'C:\inetpub\wwwroot\DSMO'
+	CNNAME = ''
+	SQLINSTANCENAME = '.'
+	DSMI_SQLDATABASENAME = 'dsmodb'
+	IMGDBNAME = 'dsmoImages'
+	SQL_AUTHENTICATION = 'false'
+	SQLUSERNAME = ''
+	SQLPASSWORD = ''
+	DSMGPATH = 'C:\Program Files (x86)\DirectSmile Generator'
+	DSMUSERS = 'C:\DSMUsers'
+	DSMUTEMP = 'C:\DSMTemp'
+	INSTALLDIR = 'C:\Program Files (x86)\DirectSmile\DirectSmile Online Backend'
+	CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
+	IISAPPIDENTITYUSERNAME = ''
+	IISAPPIDENTITYPASSWORD = ''
+	CONFIGURE_LOGINUSERFORBACKEND = 'false'
+	SERVICE_USERNAME = ''
+	SERVICE_PASSWORD = ''
+	SERVICE_DOMAIN = ''
+	DSM_BACKUP = 'C:\DSM_Backup'
+	BACKUP_DSMICONFIGURATIONFILES = 'true'
+	DATABASE_BACKUP = 'true'
+	SHRINK_DATABASE = 'true'
+	DB_TIMEOUT = '30'
+	DSMIII = 'DSMI01'
+	DSMI_REPLICATION_MASTER = 'false'
+	DSMI_REPLICATION_SLAVE = 'false'
+	AVOID_USER_SESSION = 'false'
+	NOASS = '1'
+	BACKENDROUTINGARG = 'dsmi'
+	SHORTTIMEOUT = '20'
+	CROSSDOMAINURI = '*'
+	IISAPPNAME = 'DSMO'
+	SERVICE_EXE_NAME = 'DSMOnlineBackend.exe'
+	LOG_LEVEL = '1'
+	ENABLEWF = '1'
+}
 job('DSMI_Deployment__' + CUSTOMER_NAME) {
     parameters {
         booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screeb only. Target system will not be touched.</p>')
@@ -106,7 +107,7 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 		stringParam('IISAPPNAME',IISAPPNAME,'Optional Virtual directory name of the DSMI web application')
 		stringParam('SERVICE_EXE_NAME',SERVICE_EXE_NAME,'Optional Name of the DSMI Backend service application')
 
-		choiceParam('LOG_LEVEL', ['Information', 'Critical', 'Error', 'Resume', 'Start', 'Stop', 'Suspend', 'Transfer', 'Verbose', 'Warning'],'<h3><font color="red">Only Valid &gt; Ver7.1.0.40</font></h3> <p>LOG_LEVEL install param to configure loglevel (default=Information)</p> <table cellspacing="1" summary="TraceEventType列挙体のメンバ"><tbody><tr><th>TraceEventType</th><th>Description</th></tr><tr><td>Critical</td><td>Critical Error or Application Crash</td></tr><tr><td>Error</td><td>Recoverable Error</td></tr><tr><td>Information</td><td>Information message</td></tr><tr><td>Resume</td><td>Resume processing</td></tr><tr><td>Start</td><td>Start processing</td></tr><tr><td>Stop</td><td>Stop processing</td></tr><tr><td>Suspend</td><td>Suspend processing</td></tr><tr><td>Transfer</td><td>Change relative ID</td></tr><tr><td>Verbose</td><td>Debug tracing</td></tr><tr><td>Warning</td><td>Not important issues</td></tr></tbody> </table>')
+		choiceParam('LOG_LEVEL', ['Information', 'Critical', 'Error', 'Resume', 'Start', 'Stop', 'Suspend', 'Transfer', 'Verbose', 'Warning'],'<h3><font color="red">Only Valid &gt; Ver7.1.0.40</font></h3> <p>LOG_LEVEL install param to configure loglevel (default=Information)</p> <table cellspacing="1" summary="TraceEventType"><tbody><tr><th>TraceEventType</th><th>Description</th></tr><tr><td>Critical</td><td>Critical Error or Application Crash</td></tr><tr><td>Error</td><td>Recoverable Error</td></tr><tr><td>Information</td><td>Information message</td></tr><tr><td>Resume</td><td>Resume processing</td></tr><tr><td>Start</td><td>Start processing</td></tr><tr><td>Stop</td><td>Stop processing</td></tr><tr><td>Suspend</td><td>Suspend processing</td></tr><tr><td>Transfer</td><td>Change relative ID</td></tr><tr><td>Verbose</td><td>Debug tracing</td></tr><tr><td>Warning</td><td>Not important issues</td></tr></tbody> </table>')
 		choiceParam('ENABLEWF', ['1','0'],'<h3><font color="red">Only Valid > Ver7.2.0.52</font></h3> <p>ENABLEWF=1|0 enables the Workflow(1) or disables it (0), default is ENABLEWF=1</p>')
 		}
 	scm {

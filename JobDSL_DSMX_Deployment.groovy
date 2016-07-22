@@ -2,7 +2,7 @@
 
 if(!DSMOURL){	def DSMOURL= 'http://' + FQDN + '/dsmo'}	
 if(!DSMXURL){	def DSMXURL = 'http://' + FQDN}
-if(!WEBSITES){	def WEBSITES = 'C:\inetpub\wwwroot'	}
+if(!WEBSITES){	def WEBSITES = 'C:\\inetpub\\wwwroot'	}
 if(!SQLINSTANCENAME){	def SQLINSTANCENAME = '.'}
 if(!DSMX_SQLDATABASENAME){	def DSMX_SQLDATABASENAME = 'LP3_DSM'}
 if(!SQL_AUTHENTICATION){	def SQL_AUTHENTICATION = 'false'}
@@ -15,16 +15,16 @@ if(!CONFIGURE_LOGINUSERFORBACKEND){	def CONFIGURE_LOGINUSERFORBACKEND = 'false'}
 if(!SERVICE_USERNAME){	def SERVICE_USERNAME = ''}
 if(!SERVICE_PASSWORD){	def SERVICE_PASSWORD = ''}
 if(!SERVICE_DOMAIN){	def SERVICE_DOMAIN = ''}
-if(!DSM_BACKUP){	def DSM_BACKUP = 'C:\DSM_Backup'}
+if(!DSM_BACKUP){	def DSM_BACKUP = 'C:\\DSM_Backup'}
 if(!BACKUP_DSMXCONFIGURATIONFILES){	def BACKUP_DSMXCONFIGURATIONFILES = 'true'}
 if(!BACKUP_DSMX_LANDINGPAGEDATA){	def BACKUP_DSMX_LANDINGPAGEDATA = 'false'}
 if(!DATABASE_BACKUP){	def DATABASE_BACKUP = 'true'}
 if(!SHRINK_DATABASE){	def SHRINK_DATABASE = 'true'}
 if(!DB_TIMEOUT){	def DB_TIMEOUT = '30'}
 
-if(!EMAILBACKEND){	def EMAILBACKEND = 'C:\Program Files (x86)\DirectSmile\DirectSmile Email Backend'}
-if(!TRIGGERBACKEND){	def TRIGGERBACKEND = 'C:\Program Files (x86)\DirectSmile\DirectSmile Trigger Service'}
-if(!LANDINGPAGEDATADIR){	def LANDINGPAGEDATADIR = 'C:\inetpub\wwwroot\LandingPageData'}
+if(!EMAILBACKEND){	def EMAILBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Email Backend'}
+if(!TRIGGERBACKEND){	def TRIGGERBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Trigger Service'}
+if(!LANDINGPAGEDATADIR){	def LANDINGPAGEDATADIR = 'C:\\inetpub\\wwwroot\\LandingPageData'}
 	
 if(!SHAREDSETTINGSFILE){	def SHAREDSETTINGSFILE = ''}
 if(!DSMXSERVERKEY){	def DSMXSERVERKEY = ''}

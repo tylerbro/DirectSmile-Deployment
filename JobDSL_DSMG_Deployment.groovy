@@ -4,7 +4,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	//Inherite value from env var comes Jenkins
 } else {
     DEBUG_RUN = 'true'
-	DSMG_INSTALLDIR = 'C:\Program Files (x86)\DirectSmile Generator'
+	DSMG_INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile Generator'
 	DSMG_VERSION_NUMBER = '6.0.0.44'
 	LOCAL_WEB_DIR = ''
 }

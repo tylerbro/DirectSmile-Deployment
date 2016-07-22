@@ -43,7 +43,7 @@ if(!env['STATICCOMPRESSIONOPTION']){	def STATICCOMPRESSIONOPTION = 'false'}
 
 if(!env['DSMX_VERSION_NUMBER']){	def DSMX_VERSION_NUMBER = '7.2.2.153'}
 if('me'){	
-def DEBUG_RUN = 'true'
+DEBUG_RUN = 'true'
 }
 job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	description('Update DSMX to one of Release, Release Candidate, or Developement version')

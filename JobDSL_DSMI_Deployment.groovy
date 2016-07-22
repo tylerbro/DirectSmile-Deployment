@@ -82,7 +82,7 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 		//Need to be changed to mask password
 		stringParam('IISAPPIDENTITYPASSWORD',IISAPPIDENTITYPASSWORD,'Usually, you need to specify Domain Account which has enough privileges to access relevant directory and service')
 
-		booleanParam('Configure_LoginUserforBackend',Configure_LoginUserforBackend.toBoolean(),'Only available option higher than Ver6.1! Enable when you use specific user as login of DSMOnline Backend to run it as Windows Service')
+		booleanParam('CONFIGURE_LOGINUSERFORBACKEND',CONFIGURE_LOGINUSERFORBACKEND.toBoolean(),'Only available option higher than Ver6.1! Enable when you use specific user as login of DSMOnline Backend to run it as Windows Service')
 		stringParam('SERVICE_USERNAME',SERVICE_USERNAME,'')
 
 		//Need to be changed to mask password

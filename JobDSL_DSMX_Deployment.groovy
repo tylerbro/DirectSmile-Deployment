@@ -2,7 +2,7 @@
 
 //This part set default Credential ID, to avoid any failure due to missing ID specification.
 //Please replace it with your own Jenkins server's whatever Credenital ID that you can show it as kind of example
-if (SQL_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = '') {
+if (SQL_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL == '') {
 
 	//Set Default Credential ID
 	DEFAULT_CRDENTIAL_ID = '3233e58d-05db-4275-92a4-b92aac9d4674'

@@ -5,8 +5,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 } else {
     DEBUG_RUN = 'true'
 	DSMG_INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile Generator'
-	DSMG_VERSION_NUMBER = '6.0.0.44'
-	LOCAL_WEB_DIR = ''
+	DSMG_INSTALLER_FILE_PATH = ''
 }
 job('DSMG_Deployment__' + CUSTOMER_NAME) {
 	parameters {
@@ -15,8 +14,7 @@ job('DSMG_Deployment__' + CUSTOMER_NAME) {
 		stringParam('FQDN', FQDN ,'<h3>Fully Qualified Domain Name</h3><p>Customer server FQDN which listedn by DSMInstallation Service</p>')
 		stringParam('DSMG_INSTALLDIR', DSMG_INSTALLDIR, '<p>Installation target directory for DirectSmile Generator</p>')
         choiceParam('DEPLOY_VERSION', ['DSMG_LATEST_RELEASE','DSMG_DSF_RELEASE','DSMG_SPECIFIC_VERSION'], 'Select version you want to deploy')
-		stringParam('DSMG_VERSION_NUMBER', DSMG_VERSION_NUMBER, '<p>This field is only relevant when you select "<strong>DSMG_SPECIFIC_VERSION</strong>" in above selection menu.</p> <p>&nbsp;</p> <p>The file name should have<span style="background-color: #ffff00;"> "</span><strong><span style="background-color: #ffff00;">DSMGenInstaller-</span></strong><span style="background-color: #ffff00;">"</span> as its prefix. You only need to input version number</p> <ul> <li>Example input: <strong>6.0.0.44</strong></li> </ul> <p>While we create download link, we add "DSMGenInstaller-" + "%DSMG_VERSION_NUMBER%" + ".msi" automatically.</p> <p>&nbsp;</p> <p>In case you set value in <strong>LOCAL_WEB_DIR</strong>, then this value should be exactly file name of .msi you gonna execute.</p> <ul> <li>Example input: <strong>DSMGenInstaller-6.0.0.44</strong></li> </ul>')
-		stringParam('LOCAL_WEB_DIR', LOCAL_WEB_DIR, '<p>You can use local directory path as value in here.as well as UNC path is supported</p> <p>Please ensure that you provide "<strong>/</strong>"(slash) for URL case in the end, "<strong>\\</strong>"(back slash) in case of UNC path.</p> <ul> <li>Example input: (URL) <a href="http://myserver/DirectSmile/Installer/">http://myserver/DirectSmile/Installer/<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\</a></li> </ul>')		
+		stringParam('DSMG_INSTALLER_FILE_PATH', DSMG_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported</p><ul> <li>Example input: (URL) <a href="http://directsmile.blob.core.windows.net/installer/dsmg.msi">http://directsmile.blob.core.windows.net/installer/dsmg.msi<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmg.msi">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmg.msi</a></li> </ul>')		
     }
 	scm {
 		git {

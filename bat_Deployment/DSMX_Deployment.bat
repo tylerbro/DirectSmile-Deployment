@@ -5,39 +5,35 @@ chcp 1252
 
 cd "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Client"
 
-SET "DEFAULT_WEB_DIR=http://directsmile.blob.core.windows.net/installer/"
-SET "LOCAL_WEB_DIR=%LOCAL_WEB_DIR%"
+SET "DIRECTSMILE_AZURE_CDN=http://directsmile.blob.core.windows.net/installer"
 
 IF "%DEPLOY_VERSION%" == "DSMX_LATEST_RELEASE" (
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO Set installer when Job has been triggered as "DSMX_LATEST_RELEASE Mode"
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO
-	SET "DSMX_REMOTE_INSTALLER_WEB_DIRECTORY=%DEFAULT_WEB_DIR%"
-	SET "DSMX_INSTALLER_NAME=dsmx.msi")
+	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/dsmx.msi")
 
-	IF "%DEPLOY_VERSION%" == "DSMX_SPECIFIC_VERSION" (
-		IF NOT "%LOCAL_WEB_DIR%" == "" (
-			ECHO +------------------------------------------------------------------------------------+
-			ECHO Set installer when Job has been triggered as "Specific Version Mode" together with "Download installer locally"
-			ECHO +------------------------------------------------------------------------------------+
-			ECHO
-			SET "DSMX_REMOTE_INSTALLER_WEB_DIRECTORY=%LOCAL_WEB_DIR%"
-			SET "DSMX_INSTALLER_NAME=%DSMX_VERSION_NUMBER%.msi") ELSE (
-			ECHO +------------------------------------------------------------------------------------+
-			ECHO Set installer when Job has been triggered as "Specific Version Mode"
-			ECHO +------------------------------------------------------------------------------------+
-			ECHO
-			SET "DSMX_REMOTE_INSTALLER_WEB_DIRECTORY=%SUPPORT_WEB_DIR%"
-			SET "DSMX_INSTALLER_NAME=dsmx-%DSMX_VERSION_NUMBER%.msi"))
-
+IF "%DEPLOY_VERSION%" == "DSMX_DSF_SPECIFIC_VERSION" (
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO Set installer when Job has been triggered as "DSMX_DSF_SPECIFIC_VERSION Mode"
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO
+	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/DSMX-DSF.msi")
+	
+IF "%DEPLOY_VERSION%" == "DSMX_SPECIFIC_VERSION" (
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO Set installer when Job has been triggered as "DSMX_SPECIFIC_VERSION" together with "DSMX_INSTALLER_FILE_PATH"
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO
+	SET "COMMAND_URL=%DSMX_INSTALLER_FILE_PATH%")
 REM ************************************************************************************************
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create Common part of Deployment command for DSMX
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-SET COMMON_COMMAND=DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /productCode:DSMX /url:"%DSMX_REMOTE_INSTALLER_WEB_DIRECTORY%%DSMX_INSTALLER_NAME%" WEBSITES="%WEBSITES%" DIRPROPERTY1="%WEBSITES%" DSMXURL="%DSMXURL%" DSMOURL="%DSMOURL%" SQLINSTANCENAME="%SQLINSTANCENAME%" SQLDATABASENAME="%DSMX_SQLDATABASENAME%" INSTALLDIR="%EMAILBACKEND%" DIRECTSMILE_TRIGGER_SERVICE="%TRIGGERBACKEND%" 
+SET COMMON_COMMAND=DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /productCode:DSMX /url:"%COMMAND_URL%" WEBSITES="%WEBSITES%" DIRPROPERTY1="%WEBSITES%" DSMXURL="%DSMXURL%" DSMOURL="%DSMOURL%" SQLINSTANCENAME="%SQLINSTANCENAME%" SQLDATABASENAME="%DSMX_SQLDATABASENAME%" INSTALLDIR="%EMAILBACKEND%" DIRECTSMILE_TRIGGER_SERVICE="%TRIGGERBACKEND%" 
 
 ECHO %COMMON_COMMAND%
 
@@ -110,30 +106,31 @@ ECHO +--------------------------------------------------------------------------
 ECHO Create SQL Auth part of Deployment command
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-IF NOT "%SQLUSERNAME%" == "" (
-	IF NOT "%SQLPASSWORD%" == "" (
-		SET SQLAUTH_COMMAND=SQLUSERNAME="%SQLUSERNAME%" SQLPASSWORD="%SQLPASSWORD%" ))
-ECHO %SQLAUTH_COMMAND%
+IF "%SQL_AUTHENTICATION%" == "true" (
+	SET "SQLAUTH_COMMAND=SQLUSERNAME="%SQL_USERNAME%" SQLPASSWORD="%SQL_PASSWORD%"") ELSE (
+	SET "SQLAUTH_COMMAND=")
+
+	ECHO %SQLAUTH_COMMAND%
 
 ECHO +------------------------------------------------------------------------------------+
-ECHO Create IIS Application Identitiy User Specification part of Deployment command for DSMX
+ECHO Create IIS Application Identitiy User Specification part of Deployment command
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-IF NOT "%IISAPPIDENTITYUSERNAME%" == "" (
-	IF NOT "%IISAPPIDENTITYPASSWORD%" == "" (
-		SET IISAPPIDENTITY_COMMAND=IISAPPIDENTITYUSERNAME="%IISAPPIDENTITYUSERNAME%" IISAPPIDENTITYPASSWORD="%IISAPPIDENTITYPASSWORD%" ))
+IF "%CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER%" == "true" (
+	SET "IISAPPIDENTITY_COMMAND=IISAPPIDENTITYUSERNAME="%IISAPPLICATIONPOOLIDENTITY_USERNAME%" IISAPPIDENTITYPASSWORD="%IISAPPLICATIONPOOLIDENTITY_PASSWORD%"") ELSE (
+	SET "IISAPPIDENTITY_COMMAND=")
 
-ECHO %IISAPPIDENTITY_COMMAND%
+	ECHO %IISAPPIDENTITY_COMMAND%
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create Service User Specification part of Deployment command
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-IF NOT "%SERVICE_USERNAME%" == "" (
-	IF NOT "%SERVICE_PASSWORD%" == "" (
-		SET SERVICE_COMMAND=SERVICE_USERNAME="%SERVICE_USERNAME%" SERVICE_PASSWORD="%SERVICE_PASSWORD%" SERVICE_DOMAIN="%SERVICE_DOMAIN%" ))
-		
-ECHO %SERVICE_COMMAND%
+IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
+	SET "SERVICE_COMMAND=SERVICE_USERNAME="%LOGINUSERFORBACKEND_USERNAME%" SERVICE_PASSWORD="%LOGINUSERFORBACKEND_PASSWORD%" SERVICE_DOMAIN="%SERVICE_DOMAIN%"") ELSE (
+	SET "SERVICE_COMMAND=")
+	
+	ECHO %SERVICE_COMMAND%
 
 REM ************************************************************************************************
 
@@ -179,7 +176,7 @@ ECHO
 IF "%DATABASE_BACKUP%" == "true" (
 	IF "%SQL_AUTHENTICATION%" == "true" (
 		ECHO ***Creating BackUp of Crossmedia databse, then shrink it afterward. Use SQL Authentication ***
-		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc" /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMX_SQLDATABASENAME%" /username="%SQLUSERNAME%" /password="%SQLPASSWORD%" /destination="%BACKUP_DIRECTORY%\Database\%DSMX_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%" 
+		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc" /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMX_SQLDATABASENAME%" /username="%SQL_USERNAME%" /password="%SQL_PASSWORD%" /destination="%BACKUP_DIRECTORY%\Database\%DSMX_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%" 
 		IF ERRORLEVEL 1 GOTO MYERROR ))	ELSE (
 		ECHO ***Creating BackUp of Crossmedia databse, then shrink it afterward. Use Windows Authentication***
 		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMX_SQLDATABASENAME%" /destination="%BACKUP_DIRECTORY%\Database\%DSMX_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%"

@@ -1,25 +1,37 @@
 //	ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input	
 
+//This part set default Credential ID, to avoid any failure due to missing ID specification.
+//Please replace it with your own Jenkins server's whatever Credenital ID that you can show it as kind of example
+if (SQL_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = '') {
+
+	//Set Default Credential ID
+	DEFAULT_CRDENTIAL_ID = '3233e58d-05db-4275-92a4-b92aac9d4674'
+	
+	SQL_CREDENTIAL = DEFAULT_CRDENTIAL_ID
+	IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_CRDENTIAL_ID
+	LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_CRDENTIAL_ID
+}
+
 if (binding.variables.containsKey('DEBUG_RUN')) {
 	//Inherite value from env var comes Jenkins
 } else {
+	//Define default value for all var except Seed Job parameters
     DEBUG_RUN = 'true'
 	DSMOURL= 'http://' + FQDN + '/dsmo'	
 	DSMXURL = 'http://' + FQDN
+	
+	DSMX_INSTALLER_FILE_PATH = ''
 	
 	WEBSITES = 'C:\\inetpub\\wwwroot'
 	SQLINSTANCENAME = '.'
 	DSMX_SQLDATABASENAME = 'LP3_DSM'
 	SQL_AUTHENTICATION = 'false'
-	SQLUSERNAME = ''
-	SQLPASSWORD = ''
+
 	CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
-	IISAPPIDENTITYUSERNAME = ''
-	IISAPPIDENTITYPASSWORD = ''
+
 	CONFIGURE_LOGINUSERFORBACKEND = 'false'
-	SERVICE_USERNAME = ''
-	SERVICE_PASSWORD = ''
 	SERVICE_DOMAIN = ''
+
 	DSM_BACKUP = 'C:\\DSM_Backup'
 	BACKUP_DSMXCONFIGURATIONFILES = 'true'
 	BACKUP_DSMX_LANDINGPAGEDATA = 'false'
@@ -41,9 +53,6 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	WEBSITENAME = 'Default Web Site'
 	APPPOOLNAME = 'DefaultAppPool'
 	STATICCOMPRESSIONOPTION = 'false'
-
-	DSMX_VERSION_NUMBER = '7.2.2.153'
-	LOCAL_WEB_DIR = ''
 }
 job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	description('Update DSMX to one of Release, Release Candidate, or Developement version')
@@ -54,33 +63,38 @@ job('DSMX_Deployment__' + CUSTOMER_NAME) {
 		stringParam('DSMXURL',DSMXURL,'<p>http:// prefix is needed</p>')
 		stringParam('DSMOURL',DSMOURL,'<p>http:// prefix and /dsmo as postfix are needed</p>')		
 		
-		choiceParam('DEPLOY_VERSION', ['DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE','DSMX_SPECIFIC_VERSION'],'Select version you want to deploy')
-		stringParam('DSMX_VERSION_NUMBER','DSMX_VERSION_NUMBER', '<p>This field is only relevant when you select "<strong>DSMX_SPECIFIC_VERSION</strong>" in above selection menu.</p> <p>&nbsp;</p> <p>The file name should have<span style="background-color: #ffff00;"> "</span><strong><span style="background-color: #ffff00;">dsmx-</span></strong><span style="background-color: #ffff00;">"</span> as its prefix. You only need to input version number</p> <ul> <li>Example input: <strong>7.2.2.153</strong></li> </ul> <p>While we create download link, we add "dsmx-" + "%DSMX_VERSION_NUMBER%" + ".msi" automatically.</p> <p>&nbsp;</p> <p>In case you set value in <strong>LOCAL_WEB_DIR</strong>, then this value should be exactly file name of .msi you gonna execute.</p> <ul> <li>Example input: <strong>dsmx-7.2.2.153</strong></li> </ul>')	
-		stringParam('LOCAL_WEB_DIR', LOCAL_WEB_DIR, '<p>You can use local directory path as value in here.as well as UNC path is supported</p> <p>Please ensure that you provide "<strong>/</strong>"(slash) for URL case in the end, "<strong>\\</strong>"(back slash) in case of UNC path.</p> <ul> <li>Example input: (URL) <a href="http://myserver/DirectSmile/Installer/">http://myserver/DirectSmile/Installer/<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\</a></li> </ul>')		
+		choiceParam('DEPLOY_VERSION', ['DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE','DSMX_SPECIFIC_VERSION'],'<h2>Select version you want to deploy</h2>')
+		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported</p><ul> <li>Example input: (URL) <a href="http://directsmile.blob.core.windows.net/installer/dsmx.msi">http://directsmile.blob.core.windows.net/installer/dsmx.msi<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmx.msi">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmx.msi</a></li> </ul>')		
 		
 		stringParam('WEBSITES', WEBSITES, 'UNC Path for the root website directory')
 
 		stringParam('SQLINSTANCENAME',SQLINSTANCENAME,'Instance name of your SQL Server<p>.\\SQLEXPRESS</p>')
 		stringParam('DSMX_SQLDATABASENAME',DSMX_SQLDATABASENAME,'Name of database for the DSMX-default, "LP3_DSM"')
+
+//Replaced to Credential Plugin with Credential Binding Plugin model
 		booleanParam('SQL_AUTHENTICATION',SQL_AUTHENTICATION.toBoolean(),'Does this server use SQL Authentication')
-		stringParam('SQLUSERNAME',SQLUSERNAME,'User name for SQL Authentication')
+		credentialsParam('SQL_CREDENTIAL') {
+            type('com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl')
+            defaultValue(SQL_CREDENTIAL)
+            description('<h3>SQL Authentication</h3></br><p>In case you use SQL Authentication, please add new credential in here, then specify your created Credential in here</p>')
+        }
 
-//Need to be changed to mask password
-		stringParam('SQLPASSWORD',SQLPASSWORD,'Password for SQL Authentication')
+//Replaced to Credential Plugin with Credential Binding Plugin model
+		booleanParam('CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER',CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER.toBoolean(),'Only available option higher than Ver6.1! Enable when you use specific user for Application Pool Identity')
+		credentialsParam('IISAPPLICATIONPOOLIDENTITY_CREDENTIAL') {
+            type('com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl')
+            defaultValue(IISAPPLICATIONPOOLIDENTITY_CREDENTIAL)
+            description('<p>Usually, you need to specify Domain Account which has enough privileges to access relevant directory and service</p>')
+        }
 
-		booleanParam('CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER',CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER.toBoolean(),'Only available option higher than Ver6.1! Enable when you use specific user for Application Pool Identity')	
-		stringParam('IISAPPIDENTITYUSERNAME',IISAPPIDENTITYUSERNAME,'Usually, you need to specify Domain Account which has enough privileges to access relevant directory and service')
-
-//Need to be changed to mask password
-		stringParam('IISAPPIDENTITYPASSWORD',IISAPPIDENTITYPASSWORD,'Usually, you need to specify Domain Account which has enough privileges to access relevant directory and service')
-
-		booleanParam('CONFIGURE_LOGINUSERFORBACKEND',CONFIGURE_LOGINUSERFORBACKEND.toBoolean(),'Only available option higher than Ver6.1! Enable when you use specific user as login of DSMOnline Backend to run it as Windows Service')	
-		stringParam('SERVICE_USERNAME',SERVICE_USERNAME,'')
-
-//Need to be changed to mask password
-		stringParam('SERVICE_PASSWORD',SERVICE_PASSWORD,'')
-		
+//Replaced to Credential Plugin with Credential Binding Plugin model
+		booleanParam('CONFIGURE_LOGINUSERFORBACKEND',CONFIGURE_LOGINUSERFORBACKEND.toBoolean(),'Only available option higher than Ver6.1! Enable when you use specific user as login of DSMOnline Backend to run it as Windows Service')
 		stringParam('SERVICE_DOMAIN',SERVICE_DOMAIN,'Service user domain that is executed')
+		credentialsParam('LOGINUSERFORBACKEND_CREDENTIAL') {
+            type('com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl')
+            defaultValue(LOGINUSERFORBACKEND_CREDENTIAL)
+            description('<h3>Login User for Backend</h3></br><p>In case you run DirectSmile as Service mode, please add new credential in here, then specify your created Credential in here</p>')
+        }
 
 		stringParam('EMAILBACKEND',EMAILBACKEND,'UNC path for the DirectSmile Email Backend')
 		stringParam('TRIGGERBACKEND',TRIGGERBACKEND,'UNC path for the DirectSmile Trigger Backend')
@@ -115,6 +129,17 @@ job('DSMX_Deployment__' + CUSTOMER_NAME) {
 			}
 		}
 	}
+	wrappers {
+        credentialsBinding {
+            usernamePassword('SQL_USERNAME','SQL_PASSWORD', SQL_CREDENTIAL)
+        }
+		credentialsBinding {
+            usernamePassword('IISAPPLICATIONPOOLIDENTITY_USERNAME','IISAPPLICATIONPOOLIDENTITY_PASSWORD', IISAPPLICATIONPOOLIDENTITY_CREDENTIAL)
+        }
+		credentialsBinding {
+            usernamePassword('LOGINUSERFORBACKEND_USERNAME','LOGINUSERFORBACKEND_PASSWORD', LOGINUSERFORBACKEND_CREDENTIAL)
+        }
+    }
     steps {
         dsl {
             external('JobDSL_DSMX_Deployment.groovy')

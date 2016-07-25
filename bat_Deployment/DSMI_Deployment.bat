@@ -5,37 +5,28 @@ chcp 1252
 
 cd /d "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Client"
 
-SET "DEFAULT_WEB_DIR=http://directsmile.blob.core.windows.net/installer/"
-SET "LOCAL_WEB_DIR=%LOCAL_WEB_DIR%"
+SET "DIRECTSMILE_AZURE_CDN=http://directsmile.blob.core.windows.net/installer"
 
 IF "%DEPLOY_VERSION%" == "DSMI_LATEST_RELEASE" (
 	ECHO +------------------------------------------------------------------------------------+
-	ECHO SET default installer web directory and installer file name
+	ECHO Set installer when Job has been triggered as "DSMI_LATEST_RELEASE Mode"
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO
-	SET "DSMI_REMOTE_INSTALLER_WEB_DIRECTORY=%DEFAULT_WEB_DIR%"
-	SET "DSMI_INSTALLER_NAME=dsmi.msi")
-		IF "%DEPLOY_VERSION%" == "DSMI_DSF_RELEASE" (
-		ECHO +------------------------------------------------------------------------------------+
-		ECHO Change installer web directory and installer file name when Job have been triggered as "DSF Release Version Mode"
-		ECHO +------------------------------------------------------------------------------------+
-		ECHO
-		SET "DSMI_REMOTE_INSTALLER_WEB_DIRECTORY=%DEFAULT_WEB_DIR%"
-		SET "DSMI_INSTALLER_NAME=DSMI-DSF.msi" )
-			IF "%DEPLOY_VERSION%" == "DSMI_SPECIFIC_VERSION" (
-				IF NOT "%LOCAL_WEB_DIR%" == "" (
-				ECHO +------------------------------------------------------------------------------------+
-				ECHO Set installer when Job has been triggered as "Specific Version Mode" together with "Download installer locally"
-				ECHO +------------------------------------------------------------------------------------+
-				ECHO
-				SET "DSMI_REMOTE_INSTALLER_WEB_DIRECTORY=%LOCAL_WEB_DIR%"
-				SET "DSMI_INSTALLER_NAME=%DSMI_VERSION_NUMBER%.msi") ELSE (
-					ECHO +------------------------------------------------------------------------------------+
-					ECHO Change installer file name when Job have been triggered as "Specific Version Mode"
-					ECHO +------------------------------------------------------------------------------------+
-					ECHO
-					SET "DSMI_REMOTE_INSTALLER_WEB_DIRECTORY=%SUPPORT_WEB_DIR%"
-					SET "DSMI_INSTALLER_NAME=dsmi-%DSMI_VERSION_NUMBER%.msi"))
+	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/dsmi.msi")
+
+IF "%DEPLOY_VERSION%" == "DSMI_DSF_SPECIFIC_VERSION" (
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO Set installer when Job has been triggered as "DSMI_DSF_SPECIFIC_VERSION Mode"
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO
+	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/DSMI-DSF.msi")
+	
+IF "%DEPLOY_VERSION%" == "DSMI_SPECIFIC_VERSION" (
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO Set installer when Job has been triggered as "DSMI_SPECIFIC_VERSION" together with "DSMI_INSTALLER_FILE_PATH"
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO
+	SET "COMMAND_URL=%DSMI_INSTALLER_FILE_PATH%")
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO SET replication mode /Default "Single"
@@ -147,7 +138,7 @@ ECHO +--------------------------------------------------------------------------
 ECHO Create Common part of Deployment command for DSMI 
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-SET COMMON_COMMAND=DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /url:"%DSMI_REMOTE_INSTALLER_WEB_DIRECTORY%%DSMI_INSTALLER_NAME%" /productcode:DSMI  /watchdog:yes WEBSITES="%WEBSITES%" DIRPROPERTY1="%DIRPROPERTY1%" CNNAME="%CNNAME%" SQLINSTANCENAME="%SQLINSTANCENAME%" SQLDATABASENAME="%DSMI_SQLDATABASENAME%" INSTALLDIR="%DSMI_INSTALLDIR%" ISSERVERDB="%REPTYPE%" %IMGDBNAME_COMMAND% %LOG_LEVEL_COMMAND% %DSMTEMP_COMMAND% %DSMUSERS_COMMAND% %ENABLEWF_COMMAND% %DSMOURL_COMMAND% %DSMXURL_COMMAND%
+SET COMMON_COMMAND=DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /url:"%COMMAND_URL%" /productcode:DSMI  /watchdog:yes WEBSITES="%WEBSITES%" DIRPROPERTY1="%DIRPROPERTY1%" CNNAME="%CNNAME%" SQLINSTANCENAME="%SQLINSTANCENAME%" SQLDATABASENAME="%DSMI_SQLDATABASENAME%" INSTALLDIR="%DSMI_INSTALLDIR%" ISSERVERDB="%REPTYPE%" %IMGDBNAME_COMMAND% %LOG_LEVEL_COMMAND% %DSMTEMP_COMMAND% %DSMUSERS_COMMAND% %ENABLEWF_COMMAND% %DSMOURL_COMMAND% %DSMXURL_COMMAND%
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create Optional part of Deployment command for DSMI 
@@ -159,25 +150,31 @@ ECHO +--------------------------------------------------------------------------
 ECHO Create SQL Auth part of Deployment command
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-IF NOT "%SQLUSERNAME%" == "" (
-	IF NOT "%SQLPASSWORD%" == "" (
-		SET SQLAUTH_COMMAND=SQLUSERNAME="%SQLUSERNAME%" SQLPASSWORD="%SQLPASSWORD%" ))
+IF "%SQL_AUTHENTICATION%" == "true" (
+	SET "SQLAUTH_COMMAND=SQLUSERNAME="%SQL_USERNAME%" SQLPASSWORD="%SQL_PASSWORD%"") ELSE (
+	SET "SQLAUTH_COMMAND=")
+
+	ECHO %SQLAUTH_COMMAND%
 
 ECHO +------------------------------------------------------------------------------------+
-ECHO Create IIS Application Identitiy User Specification part of Deployment command for DSMX
+ECHO Create IIS Application Identitiy User Specification part of Deployment command
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-IF NOT "%IISAPPIDENTITYUSERNAME%" == "" (
-	IF NOT "%IISAPPIDENTITYPASSWORD%" == "" (
-		SET IISAPPIDENTITY_COMMAND=IISAPPIDENTITYUSERNAME="%IISAPPIDENTITYUSERNAME%" IISAPPIDENTITYPASSWORD="%IISAPPIDENTITYPASSWORD%" ))
+IF "%CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER%" == "true" (
+	SET "IISAPPIDENTITY_COMMAND=IISAPPIDENTITYUSERNAME="%IISAPPLICATIONPOOLIDENTITY_USERNAME%" IISAPPIDENTITYPASSWORD="%IISAPPLICATIONPOOLIDENTITY_PASSWORD%"") ELSE (
+	SET "IISAPPIDENTITY_COMMAND=")
+
+	ECHO %IISAPPIDENTITY_COMMAND%
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create Service User Specification part of Deployment command
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-IF NOT "%SERVICE_USERNAME%" == "" (
-	IF NOT "%SERVICE_PASSWORD%" == "" (
-		SET SERVICE_COMMAND=SERVICE_USERNAME="%SERVICE_USERNAME%" SERVICE_PASSWORD="%SERVICE_PASSWORD%" SERVICE_DOMAIN="%SERVICE_DOMAIN%" ))
+IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
+	SET "SERVICE_COMMAND=SERVICE_USERNAME="%LOGINUSERFORBACKEND_USERNAME%" SERVICE_PASSWORD="%LOGINUSERFORBACKEND_PASSWORD%" SERVICE_DOMAIN="%SERVICE_DOMAIN%"") ELSE (
+	SET "SERVICE_COMMAND=")
+	
+	ECHO %SERVICE_COMMAND%
 		
 REM ************************************************************************************************
 
@@ -300,6 +297,7 @@ ECHO *     DEBUG MODE         *
 ECHO * Just echoing the calls *
 ECHO **************************
 ECHO %COMMON_COMMAND% 
+ECHO %COMMAND_URL%
 ECHO %OPTIONAL_COMMAND%
 ECHO %SQLAUTH_COMMAND%
 ECHO %IISAPPIDENTITY_COMMAND%

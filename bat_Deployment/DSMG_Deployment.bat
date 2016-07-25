@@ -3,41 +3,30 @@ REM DSMG Deploy Batch
 @echo off
 chcp 1252
 
-cd /d "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Client"
+cd "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Client"
 
-SET "DEFAULT_WEB_DIR=http://directsmile.blob.core.windows.net/installer/"
-SET "LOCAL_WEB_DIR=%LOCAL_WEB_DIR%"
+SET "DIRECTSMILE_AZURE_CDN=http://directsmile.blob.core.windows.net/installer"
 
 IF "%DEPLOY_VERSION%" == "DSMG_LATEST_RELEASE" (
-ECHO +------------------------------------------------------------------------------------+
-ECHO Set default installer web directory and installer's file name
-ECHO +------------------------------------------------------------------------------------+
-ECHO
-SET "REMOTE_INSTALLER_WEB_DIRECTORY=%DEFAULT_WEB_DIR%"
-SET "INSTALLER_NAME=dsmg.msi")
-
-	IF "%DEPLOY_VERSION%" == "DSMG_DSF_RELEASE" (
 	ECHO +------------------------------------------------------------------------------------+
-	ECHO Change installer's file name when Job have been triggered as "DSF Release Mode"
+	ECHO Set installer when Job has been triggered as "DSMG_LATEST_RELEASE Mode"
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO
-	SET "REMOTE_INSTALLER_WEB_DIRECTORY=%DEFAULT_WEB_DIR%"
-	SET "INSTALLER_NAME=DSMG-DSF.msi")
-	
-		IF "%DEPLOY_VERSION%" == "DSMG_SPECIFIC_VERSION" (
-			IF NOT "%LOCAL_WEB_DIR%" == "" (
-			ECHO +------------------------------------------------------------------------------------+
-			ECHO Set installer when Job has been triggered as "Specific Version Mode" together with "Download installer locally"
-			ECHO +------------------------------------------------------------------------------------+
-			ECHO
-			SET "REMOTE_INSTALLER_WEB_DIRECTORY=%LOCAL_WEB_DIR%"
-			SET "INSTALLER_NAME=%DSMG_VERSION_NUMBER%.msi") else (
-				ECHO +------------------------------------------------------------------------------------+
-				ECHO Change installer's file name when Job have been triggered as "Specific Version"
-				ECHO +------------------------------------------------------------------------------------+
-				ECHO
-				SET "REMOTE_INSTALLER_WEB_DIRECTORY=%SUPPORT_WEB_DIR%"
-				SET "INSTALLER_NAME=DSMGenInstaller-%DSMG_VERSION_NUMBER%.msi"))
+	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/dsmg.msi")
+
+IF "%DEPLOY_VERSION%" == "DSMG_DSF_RELEASE" (
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO Set installer when Job has been triggered as "DSMG_DSF_RELEASE Mode"
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO
+	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/DSMG-DSF.msi")
+
+IF "%DEPLOY_VERSION%" == "DSMG_SPECIFIC_VERSION" (
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO Set installer when Job has been triggered as "DSMG_SPECIFIC_VERSION" together with "DSMG_INSTALLER_FILE_PATH"
+	ECHO +------------------------------------------------------------------------------------+
+	ECHO
+	SET "COMMAND_URL=%DSMG_INSTALLER_FILE_PATH%")
 
 IF "%DEBUG_RUN%" == "true" (
 	GOTO DEBUG)
@@ -63,7 +52,7 @@ IF ERRORLEVEL 1 GOTO MYERROR
 ECHO +------------------------------------------------------------------------------------+
 ECHO Installation of DirectSmile Generator
 ECHO +------------------------------------------------------------------------------------+
-DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%REMOTE_INSTALLER_WEB_DIRECTORY%%INSTALLER_NAME%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" /watchdog:yes ALLUSERS=1 CLIENTUILEVEL=0
+DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" /watchdog:yes ALLUSERS=1 CLIENTUILEVEL=0
 IF ERRORLEVEL 1 GOTO MYERROR 
 
 ECHO +------------------------------------------------------------------------------------+
@@ -93,6 +82,6 @@ ECHO **************************
 ECHO +------------------------------------------------------------------------------------+
 ECHO Installation of DirectSmile Generator
 ECHO +------------------------------------------------------------------------------------+
-ECHO DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%REMOTE_INSTALLER_WEB_DIRECTORY%%INSTALLER_NAME%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" /watchdog:yes ALLUSERS=1 CLIENTUILEVEL=0
+ECHO DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" /watchdog:yes ALLUSERS=1 CLIENTUILEVEL=0
 
 EXIT 0

@@ -1,19 +1,20 @@
 //	ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input
 
-//This part set default Credential ID, to avoid any failure due to missing ID specification.
-//Please replace it with your own Jenkins server's whatever Credenital ID that you can show it as kind of example
-if (SQL_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL == '') {
-
-	//Set Default Credential ID
-	DEFAULT_CRDENTIAL_ID = '3233e58d-05db-4275-92a4-b92aac9d4674'
-	
-	SQL_CREDENTIAL = DEFAULT_CRDENTIAL_ID
-	IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_CRDENTIAL_ID
-	LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_CRDENTIAL_ID
-}
-
 if (binding.variables.containsKey('DEBUG_RUN')) {
 	//Inherite value from env var comes Jenkins
+	//This part set default Credential ID, to avoid any failure due to missing ID specification.
+	//Please replace it with your own Jenkins server's whatever Credenital ID that you can show it as kind of example
+	
+	if (SQL_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL == '') {
+
+	//Set Default Credential ID
+		DEFAULT_SQL_CRDENTIAL_ID = '3233e58d-05db-4275-92a4-b92aac9d4674'
+		DEFAULT_LOGIN_CRDENTIAL_ID = '0bff3d59-699b-4bc2-a7b6-6bf469e02292'
+		
+		SQL_CREDENTIAL = DEFAULT_SQL_CRDENTIAL_ID
+		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
+		LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
+	}
 } else {
     DEBUG_RUN = 'true'
 	DSMOURL= 'http://' + FQDN + '/dsmo'	
@@ -54,7 +55,16 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	SERVICE_EXE_NAME = 'DSMOnlineBackend.exe'
 	LOG_LEVEL = '1'
 	ENABLEWF = '1'
+
+	//Set Default Credential ID
+		DEFAULT_SQL_CRDENTIAL_ID = '3233e58d-05db-4275-92a4-b92aac9d4674'
+		DEFAULT_LOGIN_CRDENTIAL_ID = '0bff3d59-699b-4bc2-a7b6-6bf469e02292'
+		
+		SQL_CREDENTIAL = DEFAULT_SQL_CRDENTIAL_ID
+		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
+		LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
 }
+
 job('DSMI_Deployment__' + CUSTOMER_NAME) {
     parameters {
         booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screeb only. Target system will not be touched.</p>')

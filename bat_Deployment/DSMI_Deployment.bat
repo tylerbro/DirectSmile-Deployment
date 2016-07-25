@@ -151,7 +151,7 @@ ECHO Create SQL Auth part of Deployment command
 ECHO +------------------------------------------------------------------------------------+
 ECHO
 IF "%SQL_AUTHENTICATION%" == "true" (
-	SET "SQLAUTH_COMMAND=SQLUSERNAME="%SQL_USERNAME%" SQLPASSWORD="%SQL_PASSWORD%"") ELSE (
+	SET SQLAUTH_COMMAND=SQLUSERNAME="%SQL_USERNAME%" SQLPASSWORD="%SQL_PASSWORD%") ELSE (
 	SET "SQLAUTH_COMMAND=")
 
 	ECHO %SQLAUTH_COMMAND%
@@ -161,7 +161,7 @@ ECHO Create IIS Application Identitiy User Specification part of Deployment comm
 ECHO +------------------------------------------------------------------------------------+
 ECHO
 IF "%CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER%" == "true" (
-	SET "IISAPPIDENTITY_COMMAND=IISAPPIDENTITYUSERNAME="%IISAPPLICATIONPOOLIDENTITY_USERNAME%" IISAPPIDENTITYPASSWORD="%IISAPPLICATIONPOOLIDENTITY_PASSWORD%"") ELSE (
+	SET IISAPPIDENTITY_COMMAND=IISAPPIDENTITYUSERNAME="%IISAPPLICATIONPOOLIDENTITY_USERNAME%" IISAPPIDENTITYPASSWORD="%IISAPPLICATIONPOOLIDENTITY_PASSWORD%") ELSE (
 	SET "IISAPPIDENTITY_COMMAND=")
 
 	ECHO %IISAPPIDENTITY_COMMAND%
@@ -171,7 +171,7 @@ ECHO Create Service User Specification part of Deployment command
 ECHO +------------------------------------------------------------------------------------+
 ECHO
 IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
-	SET "SERVICE_COMMAND=SERVICE_USERNAME="%LOGINUSERFORBACKEND_USERNAME%" SERVICE_PASSWORD="%LOGINUSERFORBACKEND_PASSWORD%" SERVICE_DOMAIN="%SERVICE_DOMAIN%"") ELSE (
+	SET SERVICE_COMMAND=SERVICE_USERNAME="%LOGINUSERFORBACKEND_USERNAME%" SERVICE_PASSWORD="%LOGINUSERFORBACKEND_PASSWORD%" SERVICE_DOMAIN="%SERVICE_DOMAIN%") ELSE (
 	SET "SERVICE_COMMAND=")
 	
 	ECHO %SERVICE_COMMAND%
@@ -204,7 +204,7 @@ ECHO
 IF "%DATABASE_BACKUP%" == "true" (
 	IF "%SQL_AUTHENTICATION%" == "true" (
 		ECHO ***Creating BackUp of DSMI databse, then shrink it afterward***
-		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMI_SQLDATABASENAME%" /destination="%DSM_BACKUP%\Database\%DSMI_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%" /username="%SQLUSERNAME%" /password="%SQLPASSWORD%" 
+		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMI_SQLDATABASENAME%" /destination="%DSM_BACKUP%\Database\%DSMI_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%" /username="%SQL_USERNAME%" /password="%SQL_PASSWORD%" 
 		IF ERRORLEVEL 1 GOTO MYERROR ))	ELSE (
 		ECHO ***Creating BackUp of DSMI databse, then shrink it afterward***
 		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMI_SQLDATABASENAME%" /destination="%DSM_BACKUP%\Database\%DSMI_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%"
@@ -296,16 +296,6 @@ ECHO **************************
 ECHO *     DEBUG MODE         *
 ECHO * Just echoing the calls *
 ECHO **************************
-ECHO %COMMON_COMMAND% 
-ECHO %COMMAND_URL%
-ECHO %OPTIONAL_COMMAND%
-ECHO %SQLAUTH_COMMAND%
-ECHO %IISAPPIDENTITY_COMMAND%
-ECHO %SERVICE_COMMAND%
-ECHO +------------------------------------------------------------------------------------+
-ECHO Main part of Integration Server Deployment commands
-ECHO +------------------------------------------------------------------------------------+
-ECHO
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Main part of Installation Service Deployment commands

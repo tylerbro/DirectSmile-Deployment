@@ -141,11 +141,7 @@ job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	wrappers {
         credentialsBinding {
             usernamePassword('SQL_USERNAME','SQL_PASSWORD', SQL_CREDENTIAL)
-        }
-		credentialsBinding {
             usernamePassword('IISAPPLICATIONPOOLIDENTITY_USERNAME','IISAPPLICATIONPOOLIDENTITY_PASSWORD', IISAPPLICATIONPOOLIDENTITY_CREDENTIAL)
-        }
-		credentialsBinding {
             usernamePassword('LOGINUSERFORBACKEND_USERNAME','LOGINUSERFORBACKEND_PASSWORD', LOGINUSERFORBACKEND_CREDENTIAL)
         }
     }

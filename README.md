@@ -46,7 +46,7 @@ As this is customized to use JobDSL for each product specific deploy job generat
 * Add 2 new parameteres
     ### CUSTOMER_NAME
     Example description
-    ```html
+    ```html:Description
     <h3>Customer Name</h3>
     <p>this value become as POST-fix for generated deploy jobs</p></br>
     <p>example : JobDSL_DSMG_Deploy__<font color="red">efiDSMDevOps</font></p>
@@ -54,19 +54,23 @@ As this is customized to use JobDSL for each product specific deploy job generat
 
     ### FQDN
     Example description
-    ```html
+    ```html:Description
     <h3>Fully Qualified Domain Name</h3>
     <p>Customer server's FQDN which listedn by DSMInstallation Service</p>
     ```
 * Check out this GitHub project
-    ```cmd
+    ```
     Repository URL: https://github.com/Nobukins/DirectSmile-Deployment
+
     Credential: none
+
     Braches to build: */master
     ```
 * Set dsl as below
-    ```cmd
+    ```
     JobDSL_DSMG_Deployment.groovy
+
     JobDSL_DSMI_Deployment.groovy
+
     JobDSL_DSMX_Deployment.groovy
     ```

@@ -19,7 +19,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
     DEBUG_RUN = 'true'
 	DSMOURL= 'http://' + FQDN + '/dsmo'	
 	DSMXURL = 'http://' + FQDN
-	DSMX_INSTALLER_FILE_PATH = ''
+	DSMI_INSTALLER_FILE_PATH = ''
 
 	WEBSITES = 'C:\\inetpub\\wwwroot'	
 	DIRPROPERTY1 = 'C:\\inetpub\\wwwroot\\DSMO'

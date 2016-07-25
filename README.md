@@ -59,13 +59,13 @@ As this is customized to use JobDSL for each product specific deploy job generat
     <p>Customer server's FQDN which listedn by DSMInstallation Service</p>
     ```
 * Check out this GitHub project
-    ```html
+    ```cmd
     Repository URL: https://github.com/Nobukins/DirectSmile-Deployment
     Credential: none
     Braches to build: */master
     ```
 * Set dsl as below
-    ```html
+    ```cmd
     JobDSL_DSMG_Deployment.groovy
     JobDSL_DSMI_Deployment.groovy
     JobDSL_DSMX_Deployment.groovy

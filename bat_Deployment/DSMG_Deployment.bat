@@ -3,7 +3,7 @@ REM DSMG Deploy Batch
 @echo off
 chcp 1252
 
-cd "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Client"
+cd /d "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Client"
 
 SET "DIRECTSMILE_AZURE_CDN=http://directsmile.blob.core.windows.net/installer"
 

@@ -293,32 +293,39 @@ IF "%SQL_AUTHENTICATION%" == "true" (
 			ECHO +------------------------------------------------------------------------------------+
 			ECHO Installation Commands for "SQL_Auth" and "IISApplicationPoolIdentityUser_Specified" and "ServiceLoginUser_Specified"
 			ECHO +------------------------------------------------------------------------------------+
-			ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND% %IISAPPIDENTITY_COMMAND% %SERVICE_COMMAND%) ELSE ( 
+			ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND% %IISAPPIDENTITY_COMMAND% %SERVICE_COMMAND%
+			EXIT 0 ) ELSE ( 
 				ECHO +------------------------------------------------------------------------------------+
 				ECHO Installation Commands for "SQL_Auth" and "IISApplicationPoolIdentityUser_Specified"
 				ECHO +------------------------------------------------------------------------------------+
-				ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND% %IISAPPIDENTITY_COMMAND%)) ELSE IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
+				ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND% %IISAPPIDENTITY_COMMAND%
+				EXIT 0 )) ELSE IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
 			ECHO +------------------------------------------------------------------------------------+
 			ECHO Installation Commands for "SQL_Auth" and "ServiceLoginUser_Specified"
 			ECHO +------------------------------------------------------------------------------------+
-			ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND% %SERVICE_COMMAND%)
+			ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND% %SERVICE_COMMAND%
+			EXIT 0 )
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO Installation Commands for "SQL_Auth"
 	ECHO +------------------------------------------------------------------------------------+
-	ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND%) ELSE IF "%CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER%" == "true" (
+	ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND%
+	EXIT 0 ) ELSE IF "%CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER%" == "true" (
 	IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
 		ECHO +------------------------------------------------------------------------------------+
 		ECHO Installation Commands for "IISApplicationPoolIdentityUser_Specified" and "ServiceLoginUser_Specified"
 		ECHO +------------------------------------------------------------------------------------+
-		ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %IISAPPIDENTITY_COMMAND% %SERVICE_COMMAND%) ELSE (
+		ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %IISAPPIDENTITY_COMMAND% %SERVICE_COMMAND%
+		EXIT 0 ) ELSE (
 		ECHO +------------------------------------------------------------------------------------+
 		ECHO Installation Commands for "IISApplicationPoolIdentityUser_Specified"
 		ECHO +------------------------------------------------------------------------------------+
-		ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %IISAPPIDENTITY_COMMAND%)) ELSE IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
+		ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %IISAPPIDENTITY_COMMAND%
+		EXIT 0 )) ELSE IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO Installation Commands for "ServiceLoginUser_Specified"
 	ECHO +------------------------------------------------------------------------------------+
-	ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SERVICE_COMMAND%) ELSE (
+	ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SERVICE_COMMAND%
+	EXIT 0 ) ELSE (
 ECHO +------------------------------------------------------------------------------------+
 ECHO Installation Commands for Default
 ECHO +------------------------------------------------------------------------------------+

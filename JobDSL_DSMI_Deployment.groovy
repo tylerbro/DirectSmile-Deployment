@@ -30,7 +30,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	SQL_AUTHENTICATION = 'false'
 
 	DSMGPATH = 'C:\\Program Files (x86)\\DirectSmile Generator'
-	DSMXPATH = 'C:\inetpub\wwwroot'
+	DSMXPATH = 'C:\\inetpub\\wwwroot'
 	DSMUSERS = 'C:\\DSMUsers'
 	DSMTEMP = 'C:\\DSMTemp'
 	DSMI_INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Online Backend'
@@ -96,7 +96,7 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 		
 		stringParam('DSMGPATH',DSMGPATH,'<h3><font color="red">Only Valid > Ver7.2.0.133</font></h3></br> <p>DSMGPATH="C:\\Program Files (x86)\\DirectSmile Generator"</p></br></br> <p>if NOT empty, the installer configures the DirectSmileWorkingDirectory in the tblSettings</p></br>')
 
-		stringParam('DSMXPATH',DSMXPATH,'<h3><font color="red">Only Valid > Ver7.2.4</font></h3></br><p>DSMXPATH="C:\inetpub\wwwroot"</p></br></br><p>if NOT empty, the installer write input in DSMXRootPath field of dsmodb.tblSettings.</p></br>')
+		stringParam('DSMXPATH',DSMXPATH,'<h3><font color="red">Only Valid > Ver7.2.4</font></h3></br><p>DSMXPATH="C:\\inetpub\\wwwroot"</p></br></br><p>if NOT empty, the installer write input in DSMXRootPath field of dsmodb.tblSettings.</p></br>')
 
 		stringParam('DSMUSERS',DSMUSERS,'<h3><font color="red">Only Valid > Ver7.2.0.60</font></h3> <p>DSMusers directory is getting created and permissions set if DSMUSERS!=null</p>')
 		stringParam('DSMTEMP',DSMTEMP,'<h3><font color="red">Only Valid > Ver7.2.0.54</font></h3> <p>DSMTemp can be set in installer now, creates also app pool and sets the permissions, sets the localimagerepository path and url in dsmodb.tblsettings</p>')

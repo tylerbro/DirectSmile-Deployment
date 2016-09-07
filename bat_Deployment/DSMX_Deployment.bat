@@ -177,10 +177,10 @@ IF "%DATABASE_BACKUP%" == "true" (
 	IF "%SQL_AUTHENTICATION%" == "true" (
 		ECHO ***Creating BackUp of Crossmedia databse, then shrink it afterward. Use SQL Authentication ***
 		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc" /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMX_SQLDATABASENAME%" /username="%SQL_USERNAME%" /password="%SQL_PASSWORD%" /destination="%BACKUP_DIRECTORY%\Database\%DSMX_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%" 
-		IF ERRORLEVEL 1 GOTO MYERROR ))	ELSE (
+		IF ERRORLEVEL 1 GOTO MYERROR ) ELSE (
 		ECHO ***Creating BackUp of Crossmedia databse, then shrink it afterward. Use Windows Authentication***
 		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMX_SQLDATABASENAME%" /destination="%BACKUP_DIRECTORY%\Database\%DSMX_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%"
-		IF ERRORLEVEL 1 GOTO MYERROR )
+		IF ERRORLEVEL 1 GOTO MYERROR ))
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Pre-Version Check - DirectSmile Crossmedia
@@ -282,11 +282,63 @@ ECHO **************************
 ECHO *     DEBUG MODE         *
 ECHO * Just echoing the calls *
 ECHO **************************
+IF "%BACKUP_DSMXCONFIGURATIONFILES%" == "true" (
+ECHO +------------------------------------------------------------------------------------+
+ECHO DEBUG: Create BackUp of DSMX Configuration file and DSMComponents directories
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO ***Creating BackUp of Webiste as Recursive disabled***
+ECHO DSMInstallationClient.exe backup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /source="%WEBSITES%" /destination="%BACKUP_DIRECTORY%\Website" /recursive:no
+
+ECHO ***Creating BackUp of EMAILBACKEND directory***
+ECHO DSMInstallationClient.exe backup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /source="%EMAILBACKEND%" /destination="%BACKUP_DIRECTORY%\DSMComponents"
+
+ECHO ***Creating BackUp of Trigger Service directory***
+ECHO DSMInstallationClient.exe backup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /source="%TRIGGERBACKEND%" /destination="%BACKUP_DIRECTORY%\DSMComponents")
+
+IF "%BACKUP_DSMX_LANDINGPAGEDATA%" == "true" (
+ECHO +------------------------------------------------------------------------------------+
+ECHO Create BackUp of DSMX LandingPageData directory
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO ***Creating BackUp of LandingPageDat directory***
+ECHO DSMInstallationClient.exe backup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /source="%LANDINGPAGEDATADIR%" /destination="%BACKUP_DIRECTORY%\Website")
+
+IF "%DATABASE_BACKUP%" == "true" (
+ECHO +------------------------------------------------------------------------------------+
+ECHO Create Database BackUp of DSMX --- %DSMX_SQLDATABASENAME%
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+	IF "%SQL_AUTHENTICATION%" == "true" (
+		ECHO ***Creating BackUp of Crossmedia databse, then shrink it afterward. Use SQL Authentication ***
+		ECHO DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc" /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMX_SQLDATABASENAME%" /username="%SQL_USERNAME%" /password="%SQL_PASSWORD%" /destination="%BACKUP_DIRECTORY%\Database\%DSMX_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%") ELSE (
+		ECHO ***Creating BackUp of Crossmedia databse, then shrink it afterward. Use Windows Authentication***
+		ECHO DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMX_SQLDATABASENAME%" /destination="%BACKUP_DIRECTORY%\Database\%DSMX_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%"))
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO Pre-Version Check - DirectSmile Crossmedia
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO DSMInstallationClient.exe version /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMX
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO Restart IIS via DSM Installation Service as stop-start AppPool
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO DSMInstallationClient.exe appcmd /args:"stop apppool /apppool.name:""%APPPOOLNAME%""" /endpoint:"https://%FQDN%/DSMInstallationService.svc"
+
+ECHO DSMInstallationClient.exe appcmd /args:"start apppool /apppool.name:""%APPPOOLNAME%""" /endpoint:"https://%FQDN%/DSMInstallationService.svc"
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO Uninstall DSMX from the server
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO DSMInstallationClient.exe uninstall /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productcode:DSMX /servicename:DirectSmileTriggerService
+
 ECHO +------------------------------------------------------------------------------------+
 ECHO Main part of Crossmedia Deployment commands
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-
 IF "%SQL_AUTHENTICATION%" == "true" (
 	IF "%CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER%" == "true" (
 		IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (

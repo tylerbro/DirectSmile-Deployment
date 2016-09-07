@@ -135,7 +135,7 @@ ECHO DSMInstallationClient.exe uninstall /endpoint:"https://%FQDN%/DSMInstallati
 ECHO +------------------------------------------------------------------------------------+
 ECHO DEBUG: Installation of DirectSmile Generator
 ECHO +------------------------------------------------------------------------------------+
-ECHO DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" ALLUSERS=1 CLIENTUILEVEL=0 %LOGLEVEL_COMMAND% %LOGPATH_COMMAND% /watchdog:yes
+ECHO DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" INSTALLDIR="%DSMG_INSTALLDIR%" %ALLUSERS_COMMAND% %CLIENTUILEVEL_COMMAND% %LOGLEVEL_COMMAND% %LOGPATH_COMMAND% %MSILOG_COMMAND% /watchdog:yes
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO DEBUG: Restart DSMOnlineBackend to ensure affect changes

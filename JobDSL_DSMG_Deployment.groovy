@@ -26,8 +26,8 @@ job('DSMG_Deployment__' + CUSTOMER_NAME) {
 		stringParam('LOGPATH',LOGPATH,'<h3><font color="red">Only Valid &gt; Ver6.0.0.48</font></h3></br><p>LOGPATH="C:\\Program Files (x86)\\DirectSmile\\DirectSmile Logs"</p></br></br><p>if NOT empty, the installer write input in DirectSmile Generator.exe.config</p></br>')
 		
 		booleanParam('ALLUSERS', ALLUSERS.toBoolean(), '<p>If ALLUSERS=True(Automatically convert to ALLUSERS=1 in actual deployment script), Register components for all users.</p>')
-		booleanParam('CLIENTUILEVEL', CLIENTUILEVEL.toBoolean(), '<p>If ALLUSERS=True(Automatically convert to ALLUSERS=1 in actual deployment script), Register components for all users.</p>')
-		stringParam('MSILOG', MSILOG,'<h3><font color="red">Only Valid &gt; Ver1.0.0.94</font></h3></br><p>MSILOG="C:\\Program Files (x86)\\DirectSmile\\DirectSmile Logs\\DSMI_Deployment_MSILOG.log"</p></br></br><p>if NOT empty, the installer write msi log file by specified path/name</p></br>')
+		booleanParam('CLIENTUILEVEL', CLIENTUILEVEL.toBoolean(), '<p>If CLIENTUILEVEL=false(Automatically convert to CLIENTUILEVEL=0 in actual deployment script), Installation dialog visibility level would be changed</p>')
+		stringParam('MSILOG', MSILOG,'<h3><font color="red">Only Valid &gt; Ver1.0.0.94 of DSM Installation Service</font></h3></br><p>MSILOG="C:\\Program Files (x86)\\DirectSmile\\DirectSmile Logs\\DSMI_Deployment_MSILOG.log"</p></br></br><p>if NOT empty, the installer write msi log file by specified path/name</p></br>')
     }
 	scm {
 		git {

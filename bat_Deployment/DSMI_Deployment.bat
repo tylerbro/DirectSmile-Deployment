@@ -133,12 +133,28 @@ ECHO
 IF "%DSMXURL%" == "" (
 	SET "DSMXURL_COMMAND=" ) ELSE (
 	SET DSMXURL_COMMAND=DSMXURL="%DSMXURL%"	)
+	
+ECHO +------------------------------------------------------------------------------------+
+ECHO Set DSMGPATH to support custom configuration
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+IF "%DSMGPATH%" == "" (
+	SET "DSMGPATH_COMMAND=" ) ELSE (
+	SET DSMGPATH_COMMAND=DSMGPATH="%DSMGPATH%"	)	
 
+ECHO +------------------------------------------------------------------------------------+
+ECHO Set DSMXPATH to support custom configuration
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+IF "%DSMXPATH%" == "" (
+	SET "DSMXPATH_COMMAND=" ) ELSE (
+	SET DSMXPATH_COMMAND=DSMXPATH="%DSMXPATH%"	)	
+	
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create Common part of Deployment command for DSMI 
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-SET COMMON_COMMAND=DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /url:"%COMMAND_URL%" /productcode:DSMI  /watchdog:yes WEBSITES="%WEBSITES%" DIRPROPERTY1="%DIRPROPERTY1%" CNNAME="%CNNAME%" SQLINSTANCENAME="%SQLINSTANCENAME%" SQLDATABASENAME="%DSMI_SQLDATABASENAME%" INSTALLDIR="%DSMI_INSTALLDIR%" ISSERVERDB="%REPTYPE%" %IMGDBNAME_COMMAND% %LOG_LEVEL_COMMAND% %DSMTEMP_COMMAND% %DSMUSERS_COMMAND% %ENABLEWF_COMMAND% %DSMOURL_COMMAND% %DSMXURL_COMMAND%
+SET COMMON_COMMAND=DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /url:"%COMMAND_URL%" /productcode:DSMI  /watchdog:yes WEBSITES="%WEBSITES%" DIRPROPERTY1="%DIRPROPERTY1%" CNNAME="%CNNAME%" SQLINSTANCENAME="%SQLINSTANCENAME%" SQLDATABASENAME="%DSMI_SQLDATABASENAME%" INSTALLDIR="%DSMI_INSTALLDIR%" ISSERVERDB="%REPTYPE%" %IMGDBNAME_COMMAND% %LOG_LEVEL_COMMAND% %DSMTEMP_COMMAND% %DSMUSERS_COMMAND% %ENABLEWF_COMMAND% %DSMOURL_COMMAND% %DSMXURL_COMMAND% %DSMGPATH_COMMAND% %DSMXPATH_COMMAND%
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create Optional part of Deployment command for DSMI 
@@ -186,34 +202,36 @@ ECHO
 IF "%DEBUG_RUN%" == "true" (
 GOTO DEBUG )
 
+IF "%BACKUP_DSMICONFIGURATIONFILES%" == "true" (
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create BackUp of DSMI Configuration file and DSMComponents directories /Enabled by default
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-IF "%BackUp_DSMIConfigurationFiles%" == "true" (
 DSMInstallationClient.exe backup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /source="%DIRPROPERTY1%" /destination="%DSM_BACKUP%\Website" /recursive:no
 IF ERRORLEVEL 1 GOTO MYERROR
 
 DSMInstallationClient.exe backup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /source="%DSMI_INSTALLDIR%" /destination="%DSM_BACKUP%\DSMComponents"
 IF ERRORLEVEL 1 GOTO MYERROR )
 
+IF "%DATABASE_BACKUP%" == "true" (
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create Database BackUp of DSMI --- %DSMI_SQLDATABASENAME%
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-IF "%DATABASE_BACKUP%" == "true" (
 	IF "%SQL_AUTHENTICATION%" == "true" (
 		ECHO ***Creating BackUp of DSMI databse, then shrink it afterward***
 		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMI_SQLDATABASENAME%" /destination="%DSM_BACKUP%\Database\%DSMI_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%" /username="%SQL_USERNAME%" /password="%SQL_PASSWORD%" 
-		IF ERRORLEVEL 1 GOTO MYERROR ))	ELSE (
+		IF ERRORLEVEL 1 GOTO MYERROR ) ELSE (
 		ECHO ***Creating BackUp of DSMI databse, then shrink it afterward***
 		DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMI_SQLDATABASENAME%" /destination="%DSM_BACKUP%\Database\%DSMI_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%"
-		IF ERRORLEVEL 1 GOTO MYERROR )
+		IF ERRORLEVEL 1 GOTO MYERROR ))
+
 ECHO +------------------------------------------------------------------------------------+
 ECHO Check Current DSMI Version
 ECHO +------------------------------------------------------------------------------------+
 ECHO
 DSMInstallationClient.exe version /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMI
+
 IF ERRORLEVEL 1 GOTO MYERROR
 ECHO +------------------------------------------------------------------------------------+
 ECHO Uninstallation of DSMI
@@ -297,8 +315,40 @@ ECHO *     DEBUG MODE         *
 ECHO * Just echoing the calls *
 ECHO **************************
 
+IF "%BACKUP_DSMICONFIGURATIONFILES%" == "true" (
 ECHO +------------------------------------------------------------------------------------+
-ECHO Main part of Installation Service Deployment commands
+ECHO DSBUG: Create BackUp of DSMI Configuration file and DSMComponents directories /Enabled by default
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO DSMInstallationClient.exe backup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /source="%DIRPROPERTY1%" /destination="%DSM_BACKUP%\Website" /recursive:no
+
+ECHO DSMInstallationClient.exe backup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /source="%DSMI_INSTALLDIR%" /destination="%DSM_BACKUP%\DSMComponents")
+
+IF "%DATABASE_BACKUP%" == "true" (
+ECHO +------------------------------------------------------------------------------------+
+ECHO DSBUG: Create Database BackUp of DSMI --- %DSMI_SQLDATABASENAME%
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+	IF "%SQL_AUTHENTICATION%" == "true" (
+		ECHO ***Creating BackUp of DSMI databse, then shrink it afterward***
+		ECHODSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMI_SQLDATABASENAME%" /destination="%DSM_BACKUP%\Database\%DSMI_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%" /username="%SQL_USERNAME%" /password="%SQL_PASSWORD%" ) ELSE (
+		ECHO ***Creating BackUp of DSMI databse, then shrink it afterward***
+		ECHO DSMInstallationClient.exe dbbackup /endpoint:"https://%FQDN%/DSMInstallationService.svc"  /sqlserver="%SQLINSTANCENAME%" /dbname="%DSMI_SQLDATABASENAME%" /destination="%DSM_BACKUP%\Database\%DSMI_SQLDATABASENAME%.bak" /shrink="%SHRINK_DATABASE%" /timeout="%DB_TIMEOUT%" ))
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO DSBUG: Check Current DSMI Version
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO DSMInstallationClient.exe version /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMI
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO DSBUG: Uninstallation of DSMI
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO DSMInstallationClient.exe uninstall /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productcode:DSMI /servicename:DSMOnlineBackend /ProcessesToKill:"DirectSmile Generator;DSMWatchDog;VDPOnlineServer"
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO DSBUG: Main part of Installation Service Deployment commands
 ECHO +------------------------------------------------------------------------------------+
 ECHO
 
@@ -306,42 +356,42 @@ IF "%SQL_AUTHENTICATION%" == "true" (
 	IF "%CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER%" == "true" (
 		IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
 			ECHO +------------------------------------------------------------------------------------+
-			ECHO Installation Commands for "SQL_Auth" and "IISApplicationPoolIdentityUser_Specified" and "ServiceLoginUser_Specified"
+			ECHO DSBUG: Installation Commands for "SQL_Auth" and "IISApplicationPoolIdentityUser_Specified" and "ServiceLoginUser_Specified"
 			ECHO +------------------------------------------------------------------------------------+
 			ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND% %IISAPPIDENTITY_COMMAND% %SERVICE_COMMAND%
 			EXIT 0 ) ELSE (
 			ECHO +------------------------------------------------------------------------------------+
-			ECHO Installation Commands for "SQL_Auth" and "IISApplicationPoolIdentityUser_Specified"
+			ECHO DSBUG: Installation Commands for "SQL_Auth" and "IISApplicationPoolIdentityUser_Specified"
 			ECHO +------------------------------------------------------------------------------------+
 			ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND% %IISAPPIDENTITY_COMMAND%
 			EXIT 0 )) ELSE IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
 						ECHO +------------------------------------------------------------------------------------+
-						ECHO Installation Commands for "SQL_Auth" and "ServiceLoginUser_Specified"
+						ECHO DSBUG: Installation Commands for "SQL_Auth" and "ServiceLoginUser_Specified"
 						ECHO +------------------------------------------------------------------------------------+
 						ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND% %SERVICE_COMMAND%
 						EXIT 0 )
 	ECHO +------------------------------------------------------------------------------------+
-	ECHO Installation Commands for "SQL_Auth"
+	ECHO DSBUG: Installation Commands for "SQL_Auth"
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SQLAUTH_COMMAND%) ELSE IF "%CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER%" == "true" (
 	IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
 		ECHO +------------------------------------------------------------------------------------+
-		ECHO Installation Commands for "IISApplicationPoolIdentityUser_Specified" and "ServiceLoginUser_Specified"
+		ECHO DSBUG: Installation Commands for "IISApplicationPoolIdentityUser_Specified" and "ServiceLoginUser_Specified"
 		ECHO +------------------------------------------------------------------------------------+
 		ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %IISAPPIDENTITY_COMMAND% %SERVICE_COMMAND%
 		EXIT 0 ) ELSE (
 		ECHO +------------------------------------------------------------------------------------+
-		ECHO Installation Commands for "IISApplicationPoolIdentityUser_Specified"
+		ECHO DSBUG: Installation Commands for "IISApplicationPoolIdentityUser_Specified"
 		ECHO +------------------------------------------------------------------------------------+
 		ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %IISAPPIDENTITY_COMMAND%
 		EXIT 0 )) ELSE IF "%CONFIGURE_LOGINUSERFORBACKEND%" == "true" (
 	ECHO +------------------------------------------------------------------------------------+
-	ECHO Installation Commands for "ServiceLoginUser_Specified"
+	ECHO DSBUG: Installation Commands for "ServiceLoginUser_Specified"
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND% %SERVICE_COMMAND%
 	EXIT 0 ) ELSE (
 ECHO +------------------------------------------------------------------------------------+
-ECHO Installation Commands for Default
+ECHO DSBUG: Installation Commands for Default
 ECHO +------------------------------------------------------------------------------------+
 ECHO %COMMON_COMMAND% %OPTIONAL_COMMAND%)
 

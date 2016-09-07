@@ -28,9 +28,27 @@ IF "%DEPLOY_VERSION%" == "DSMG_SPECIFIC_VERSION" (
 	ECHO
 	SET "COMMAND_URL=%DSMG_INSTALLER_FILE_PATH%")
 
-IF "%DEBUG_RUN%" == "true" (
-	GOTO DEBUG)
+ECHO +------------------------------------------------------------------------------------+
+ECHO Set LOGLEVEL to support custom configuration
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+IF "%LOGLEVEL%" == "" (
+	SET "LOGLEVEL_COMMAND=" ) ELSE (
+	SET LOGLEVEL_COMMAND=LOGLEVEL="%LOGLEVEL%"	)	
 
+ECHO +------------------------------------------------------------------------------------+
+ECHO Set LOGPATH to support custom configuration
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+IF "%LOGPATH%" == "" (
+	SET "LOGPATH_COMMAND=" ) ELSE (
+	SET LOGPATH_COMMAND=LOGPATH="%LOGPATH%"	)	
+	
+	
+IF "%DEBUG_RUN%" == "true" (
+	GOTO DEBUG )
+	
+	
 ECHO +------------------------------------------------------------------------------------+
 ECHO Main part of Installation Service command
 ECHO +------------------------------------------------------------------------------------+
@@ -52,7 +70,7 @@ IF ERRORLEVEL 1 GOTO MYERROR
 ECHO +------------------------------------------------------------------------------------+
 ECHO Installation of DirectSmile Generator
 ECHO +------------------------------------------------------------------------------------+
-DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" /watchdog:yes ALLUSERS=1 CLIENTUILEVEL=0
+DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" ALLUSERS=1 CLIENTUILEVEL=0 %LOGLEVEL_COMMAND% %LOGPATH_COMMAND% /watchdog:yes
 IF ERRORLEVEL 1 GOTO MYERROR 
 
 ECHO +------------------------------------------------------------------------------------+
@@ -80,8 +98,32 @@ ECHO *     DEBUG MODE         *
 ECHO * Just echoing the calls *
 ECHO **************************
 ECHO +------------------------------------------------------------------------------------+
-ECHO Installation of DirectSmile Generator
+ECHO DEBUG: Pre-Version Check - DirectSmile Generator
 ECHO +------------------------------------------------------------------------------------+
-ECHO DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" /watchdog:yes ALLUSERS=1 CLIENTUILEVEL=0
+ECHO
+ECHO DSMInstallationClient.exe version /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO DEBUG: Uninstallation of DirectSmile Generator
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO DSMInstallationClient.exe uninstall /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /servicename:DSMOnlineBackend  /ProcessesToKill:"DirectSmile Generator;DSMWatchDog;VDPOnlineServer" /lime "C:\Uninstallation.log"
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO DEBUG: Installation of DirectSmile Generator
+ECHO +------------------------------------------------------------------------------------+
+ECHO DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" ALLUSERS=1 CLIENTUILEVEL=0 %LOGLEVEL_COMMAND% %LOGPATH_COMMAND% /watchdog:yes
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO DEBUG: Restart DSMOnlineBackend to ensure affect changes
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO DSMInstallationClient.exe restart /endpoint:"https://%FQDN%/DSMInstallationService.svc" /servicename:DSMOnlineBackend
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO DEBUG: Post-Version Check - DirectSmile Generator
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+ECHO DSMInstallationClient.exe version /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG
 
 EXIT 0

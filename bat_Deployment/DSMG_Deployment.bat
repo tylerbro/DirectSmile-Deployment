@@ -34,7 +34,7 @@ ECHO +--------------------------------------------------------------------------
 ECHO
 IF "%LOGLEVEL%" == "" (
 	SET "LOGLEVEL_COMMAND=" ) ELSE (
-	SET LOGLEVEL_COMMAND=LOGLEVEL="%LOGLEVEL%"	)	
+	SET LOGLEVEL_COMMAND=LOGLEVEL="%LOGLEVEL%")	
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Set LOGPATH to support custom configuration
@@ -42,8 +42,31 @@ ECHO +--------------------------------------------------------------------------
 ECHO
 IF "%LOGPATH%" == "" (
 	SET "LOGPATH_COMMAND=" ) ELSE (
-	SET LOGPATH_COMMAND=LOGPATH="%LOGPATH%"	)	
-	
+	SET LOGPATH_COMMAND=LOGPATH="%LOGPATH%")	
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO Set ALLUSERS to support custom configuration
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+IF "%ALLUSERS%" == "true" (
+	SET ALLUSERS_COMMAND=ALLUSERS="1" ) ELSE (
+	SET ALLUSERS_COMMAND=ALLUSERS="0")	
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO Set CLIENTUILEVEL to support custom configuration
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+IF "%CLIENTUILEVEL%" == "false" (
+	SET CLIENTUILEVEL_COMMAND=CLIENTUILEVEL="0" ) ELSE (
+	SET CLIENTUILEVEL_COMMAND=CLIENTUILEVEL="1")
+
+ECHO +------------------------------------------------------------------------------------+
+ECHO Set MSILOG to support custom Installation command
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+IF "%MSILOG%" == "" (
+	SET "MSILOG_COMMAND=" ) ELSE (
+	SET MSILOG_COMMAND=MSILOG="%MSILOG%")		
 	
 IF "%DEBUG_RUN%" == "true" (
 	GOTO DEBUG )
@@ -64,13 +87,13 @@ ECHO +--------------------------------------------------------------------------
 ECHO Uninstallation of DirectSmile Generator
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-DSMInstallationClient.exe uninstall /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /servicename:DSMOnlineBackend  /ProcessesToKill:"DirectSmile Generator;DSMWatchDog;VDPOnlineServer" /lime "C:\Uninstallation.log"
+DSMInstallationClient.exe uninstall /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /servicename:DSMOnlineBackend  /ProcessesToKill:"DirectSmile Generator;DSMWatchDog;VDPOnlineServer" %MSILOG_COMMAND%
 IF ERRORLEVEL 1 GOTO MYERROR
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Installation of DirectSmile Generator
 ECHO +------------------------------------------------------------------------------------+
-DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" /msilog=True INSTALLDIR="%DSMG_INSTALLDIR%" ALLUSERS=1 CLIENTUILEVEL=0 %LOGLEVEL_COMMAND% %LOGPATH_COMMAND% /watchdog:yes
+DSMInstallationClient.exe install /endpoint:"https://%FQDN%/DSMInstallationService.svc" /productCode:DSMG /url:"%COMMAND_URL%" INSTALLDIR="%DSMG_INSTALLDIR%" %ALLUSERS_COMMAND% %CLIENTUILEVEL_COMMAND% %LOGLEVEL_COMMAND% %LOGPATH_COMMAND% %MSILOG_COMMAND% /watchdog:yes
 IF ERRORLEVEL 1 GOTO MYERROR 
 
 ECHO +------------------------------------------------------------------------------------+

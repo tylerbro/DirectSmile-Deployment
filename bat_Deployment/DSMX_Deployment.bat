@@ -14,9 +14,9 @@ IF "%DEPLOY_VERSION%" == "DSMX_LATEST_RELEASE" (
 	ECHO
 	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/dsmx.msi")
 
-IF "%DEPLOY_VERSION%" == "DSMX_DSF_SPECIFIC_VERSION" (
+IF "%DEPLOY_VERSION%" == "DSMX_DSF_RELEASE" (
 	ECHO +------------------------------------------------------------------------------------+
-	ECHO Set installer when Job has been triggered as "DSMX_DSF_SPECIFIC_VERSION Mode"
+	ECHO Set installer when Job has been triggered as "DSMX_DSF_RELEASE Mode"
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO
 	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/DSMX-DSF.msi")

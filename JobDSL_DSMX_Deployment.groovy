@@ -1,5 +1,4 @@
 //	ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input	
-
 if (binding.variables.containsKey('DEBUG_RUN')) {
 	//Inherite value from env var comes Jenkins
 	//This part set default value for Credential ID(SQL_CREDENTIAL,IISAPPLICATIONPOOLIDENTITY_CREDENTIAL), to avoid any failure due to missing ID specification.
@@ -64,6 +63,14 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
 		LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
 }
+// *******************************************************************************************************
+// Here is additional code to support new parameters
+// *******************************************************************************************************
+if (binding.variables.containsKey('TRIGGER_BLOCK_LIMIT')) {
+	} else{
+	TRIGGER_BLOCK_LIMIT = '5000'
+}
+// *******************************************************************************************************
 job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	description('Update DSMX to one of Release, Release Candidate, or Developement version')
     parameters {

@@ -2,10 +2,9 @@
 
 if (binding.variables.containsKey('DEBUG_RUN')) {
 	//Inherite value from env var comes Jenkins
-	//This part set default Credential ID, to avoid any failure due to missing ID specification.
+	//This part set default value for Credential ID(SQL_CREDENTIAL,IISAPPLICATIONPOOLIDENTITY_CREDENTIAL), to avoid any failure due to missing ID specification.
 	//Please replace it with your own Jenkins server's whatever Credenital ID that you can show it as kind of example
-	
-	if (SQL_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL == '') {
+	if (SQL_CREDENTIAL == ''|IISAPPLICATIONPOOLIDENTITY_CREDENTIAL == '') {
 
 	//Set Default Credential ID
 		DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'
@@ -54,6 +53,8 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	WEBSITENAME = 'Default Web Site'
 	APPPOOLNAME = 'DefaultAppPool'
 	STATICCOMPRESSIONOPTION = 'false'
+	
+	TRIGGER_BLOCK_LIMIT = '5000'
 
 	//Set Default Credential ID
 		DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'
@@ -126,6 +127,8 @@ job('DSMX_Deployment__' + CUSTOMER_NAME) {
 		stringParam('WEBSITENAME',WEBSITENAME,'<p>Crossmedia website Name.</p></br><p>As default, it use "Default Web Site". If you use other than default, change this value. It is crutial to control website by appcmd.</p>')
 		stringParam('APPPOOLNAME',APPPOOLNAME,'<p>Crossmedia website Application Pool Name.</p></br><p>As default, it use "DefaultAppPool". If you use other than default, change this value. It is crutial to control website by appcmd.</p>')
 		booleanParam('STATICCOMPRESSIONOPTION',STATICCOMPRESSIONOPTION.toBoolean(),'<p>Option to make Static HTTP Content Compression on the DSMX Website.</p></br><p> Important to avoid css issue affected to Google Font not appearing correctly.</p>')
+		
+		stringParam('TRIGGER_BLOCK_LIMIT',TRIGGER_BLOCK_LIMIT,'<h3><font color="red">Only Valid &gt; Ver7.3.0.32</font></h3></br> <p>TRIGGER_BLOCK_LIMIT="20000"</p></br> <p>Please add this parameter to the dsmx installer call to set higher number of max block size that campaign manager send out to DSMI Workflow</p></br>')
 		}
 	scm {
 		git {

@@ -37,14 +37,14 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
 
 	CONFIGURE_LOGINUSERFORBACKEND = 'false'
-	SERVICE_DOMAIN = ''
+	SERVICE_DOMAIN = 'printhosting.com'
 
 	DSM_BACKUP = 'C:\\DSM_Backup'
 	BACKUP_DSMICONFIGURATIONFILES = 'true'
 	DATABASE_BACKUP = 'true'
 	SHRINK_DATABASE = 'true'
 	DB_TIMEOUT = '30'
-	DSMIII = 'DSMI01'
+	DSMIII = ''
 	DSMI_REPLICATION_MASTER = 'false'
 	DSMI_REPLICATION_SLAVE = 'false'
 	AVOID_USER_SESSION = 'false'
@@ -55,7 +55,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	IISAPPNAME = 'DSMO'
 	SERVICE_EXE_NAME = 'DSMOnlineBackend.exe'
 	LOG_LEVEL = '1'
-	ENABLEWF = '1'
+	ENABLEWF = '0'
 
 	//Set Default Credential ID
 		DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'
@@ -72,7 +72,7 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 		stringParam('CUSTOMER_NAME', CUSTOMER_NAME,'<h3>Customer Name</h3><p>this value become as post-fix for generated deploy jobs</p>')
 		stringParam('FQDN', FQDN ,'<h3>Fully Qualified Domain Name</h3><p>Customer server FQDN which listedn by DSMInstallation Service</p>')
 
-		choiceParam('DSMI_DEPLOY_VERSION', ['DSMI_LATEST_RELEASE','DSMI_DSF_RELEASE','DSMI_SPECIFIC_VERSION'],'Select version you want to deploy')
+	     	choiceParam(['DSMI_DEPLOY_VERSION','DSMI_SPECIFIC_VERSION','DSMI_LATEST_RELEASE'],'Select version you want to deploy')
 		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported</p><ul> <li>Example input: (URL) <a href="http://directsmile.blob.core.windows.net/installer/dsmi.msi">http://directsmile.blob.core.windows.net/installer/dsmi.msi<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmi.msi">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmi.msi</a></li> </ul>')	
 		
 		stringParam('DSMOURL',DSMOURL,'<h3><font color="red">Only Valid &gt; Ver7.2.0.60</font></h3></br> <p>DSMOURL="http://servername/dsmo"</p></br> <p>Please add this parameter to the dsmi installer call to get the base url of DSMI correctly set and to get the url to the dsmimages correctly set.</p></br>')
@@ -141,7 +141,7 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 		stringParam('SERVICE_EXE_NAME',SERVICE_EXE_NAME,'Optional Name of the DSMI Backend service application')
 
 		choiceParam('LOG_LEVEL', ['Information', 'Critical', 'Error', 'Resume', 'Start', 'Stop', 'Suspend', 'Transfer', 'Verbose', 'Warning'],'<h3><font color="red">Only Valid &gt; Ver7.1.0.40</font></h3> <p>LOG_LEVEL install param to configure loglevel (default=Information)</p> <table cellspacing="1" summary="TraceEventType"><tbody><tr><th>TraceEventType</th><th>Description</th></tr><tr><td>Critical</td><td>Critical Error or Application Crash</td></tr><tr><td>Error</td><td>Recoverable Error</td></tr><tr><td>Information</td><td>Information message</td></tr><tr><td>Resume</td><td>Resume processing</td></tr><tr><td>Start</td><td>Start processing</td></tr><tr><td>Stop</td><td>Stop processing</td></tr><tr><td>Suspend</td><td>Suspend processing</td></tr><tr><td>Transfer</td><td>Change relative ID</td></tr><tr><td>Verbose</td><td>Debug tracing</td></tr><tr><td>Warning</td><td>Not important issues</td></tr></tbody> </table>')
-		choiceParam('ENABLEWF', ['1','0'],'<h3><font color="red">Only Valid &gt; Ver7.2.0.52</font></h3> <p>ENABLEWF=1|0 enables the Workflow(1) or disables it (0), default is ENABLEWF=1</p>')
+		choiceParam('ENABLEWF', ['0','1'],'<h3><font color="red">Only Valid &gt; Ver7.2.0.52</font></h3> <p>ENABLEWF=1|0 enables the Workflow(1) or disables it (0), default is ENABLEWF=0</p>')
 		}
 	scm {
 		git {

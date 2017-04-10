@@ -72,7 +72,7 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 		stringParam('CUSTOMER_NAME', CUSTOMER_NAME,'<h3>Customer Name</h3><p>this value become as post-fix for generated deploy jobs</p>')
 		stringParam('FQDN', FQDN ,'<h3>Fully Qualified Domain Name</h3><p>Customer server FQDN which listedn by DSMInstallation Service</p>')
 
-		choiceParam('DEPLOY_VERSION', ['DSMI_LATEST_RELEASE','DSMI_DSF_RELEASE','DSMI_SPECIFIC_VERSION'],'Select version you want to deploy')
+		choiceParam('DSMI_DEPLOY_VERSION', ['DSMI_LATEST_RELEASE','DSMI_DSF_RELEASE','DSMI_SPECIFIC_VERSION'],'Select version you want to deploy')
 		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported</p><ul> <li>Example input: (URL) <a href="http://directsmile.blob.core.windows.net/installer/dsmi.msi">http://directsmile.blob.core.windows.net/installer/dsmi.msi<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmi.msi">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmi.msi</a></li> </ul>')	
 		
 		stringParam('DSMOURL',DSMOURL,'<h3><font color="red">Only Valid &gt; Ver7.2.0.60</font></h3></br> <p>DSMOURL="http://servername/dsmo"</p></br> <p>Please add this parameter to the dsmi installer call to get the base url of DSMI correctly set and to get the url to the dsmimages correctly set.</p></br>')

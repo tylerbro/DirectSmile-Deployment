@@ -27,16 +27,16 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	SQLINSTANCENAME = '.'
 	DSMI_SQLDATABASENAME = CUSTOMER_NAME + '_dsmodb'
 	IMGDBNAME = CUSTOMER_NAME + '_dsmoImages'
-	SQL_AUTHENTICATION = 'false'
+	SQL_AUTHENTICATION = 'true'
 
 	DSMGPATH = 'C:\\Program Files (x86)\\DirectSmile Generator'
 	DSMXPATH = 'C:\\inetpub\\wwwroot'
 	DSMUSERS = 'C:\\DSMUsers'
 	DSMTEMP = 'C:\\DSMTemp'
 	DSMI_INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Online Backend'
-	CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
+	CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'true'
 
-	CONFIGURE_LOGINUSERFORBACKEND = 'false'
+	CONFIGURE_LOGINUSERFORBACKEND = 'true'
 	SERVICE_DOMAIN = 'printhosting.com'
 
 	DSM_BACKUP = 'C:\\DSM_Backup'

@@ -23,13 +23,13 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	
 	WEBSITES = 'C:\\inetpub\\wwwroot'
 	SQLINSTANCENAME = '.'
-	DSMX_SQLDATABASENAME = 'LP3_DSM'
+	DSMX_SQLDATABASENAME = CUSTOMER_NAME + '_LP3_DSM'
 	SQL_AUTHENTICATION = 'false'
 
 	CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
 
 	CONFIGURE_LOGINUSERFORBACKEND = 'false'
-	SERVICE_DOMAIN = ''
+	SERVICE_DOMAIN = 'printhosting.com'
 
 	DSM_BACKUP = 'C:\\DSM_Backup'
 	BACKUP_DSMXCONFIGURATIONFILES = 'true'
@@ -80,7 +80,7 @@ job('DSMX_Deployment__' + CUSTOMER_NAME) {
 		stringParam('DSMXURL',DSMXURL,'<p>http:// prefix is needed</p>')
 		stringParam('DSMOURL',DSMOURL,'<p>http:// prefix and /dsmo as postfix are needed</p>')		
 		
-		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE','DSMX_SPECIFIC_VERSION'],'<h2>Select version you want to deploy</h2>')
+		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_SPECIFIC_VERSION','DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE'],'<h2>Select version you want to deploy</h2>')
 		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported</p><ul> <li>Example input: (URL) <a href="http://directsmile.blob.core.windows.net/installer/dsmx.msi">http://directsmile.blob.core.windows.net/installer/dsmx.msi<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmx.msi">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmx.msi</a></li> </ul>')		
 		
 		stringParam('WEBSITES', WEBSITES, 'UNC Path for the root website directory')

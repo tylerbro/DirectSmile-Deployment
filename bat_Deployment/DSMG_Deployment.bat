@@ -7,21 +7,21 @@ cd /d "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Clien
 
 SET "DIRECTSMILE_AZURE_CDN=http://directsmile.blob.core.windows.net/installer"
 
-IF "%DEPLOY_VERSION%" == "DSMG_LATEST_RELEASE" (
+IF "%DSMG_DEPLOY_VERSION%" == "DSMG_LATEST_RELEASE" (
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO Set installer when Job has been triggered as "DSMG_LATEST_RELEASE Mode"
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO
 	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/dsmg.msi")
 
-IF "%DEPLOY_VERSION%" == "DSMG_DSF_RELEASE" (
+IF "%DSMG_DEPLOY_VERSION%" == "DSMG_DSF_RELEASE" (
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO Set installer when Job has been triggered as "DSMG_DSF_RELEASE Mode"
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO
 	SET "COMMAND_URL=%DIRECTSMILE_AZURE_CDN%/DSMG-DSF.msi")
 
-IF "%DEPLOY_VERSION%" == "DSMG_SPECIFIC_VERSION" (
+IF "%DSMG_DEPLOY_VERSION%" == "DSMG_SPECIFIC_VERSION" (
 	ECHO +------------------------------------------------------------------------------------+
 	ECHO Set installer when Job has been triggered as "DSMG_SPECIFIC_VERSION" together with "DSMG_INSTALLER_FILE_PATH"
 	ECHO +------------------------------------------------------------------------------------+

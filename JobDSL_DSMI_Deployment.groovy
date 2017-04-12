@@ -46,16 +46,16 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	DSMXPATH = 'C:\\inetpub\\wwwroot'
 	
 	if (CUSTOMER_NAME.contains('QA')) {
-		DSMUSERS = '\\\\dsmqafs.printhosting.com\\DSMI\\CUSTOMER_NAME\\DSMUsers'
-		DSMTEMP = '\\\\dsmqafs.printhosting.com\\DSMI\\CUSTOMER_NAME\\DSMTemp'
+		DSMUSERS = '\\\\dsmqafs.printhosting.com\\DSMI\\' + CUSTOMER_NAME + '\\DSMUsers'
+		DSMTEMP = '\\\\dsmqafs.printhosting.com\\DSMI\\' + CUSTOMER_NAME + '\\DSMTemp'
 	} 
 	else if (CUSTOMER_NAME.contains('PRDAPP5')) {
-		DSMUSERS = '\\\\ihsfs503\\DSM\\CUSTOMER_NAME\\DSMUsers'
-		DSMTEMP = '\\\\ihsfs503\\DSM\\CUSTOMER_NAME\\DSMTemp'
+		DSMUSERS = '\\\\ihsfs503\\DSM\\' + CUSTOMER_NAME + '\\DSMUsers'
+		DSMTEMP = '\\\\ihsfs503\\DSM\\' + CUSTOMER_NAME + '\\DSMTemp'
 	} 
 	else if (CUSTOMER_NAME.contains('PRD')) {
-		DSMUSERS = '\\\\dsmprdfs.printhosting.com\\DSM\\CUSTOMER_NAME\\DSMUsers'
-		DSMTEMP = '\\\\dsmprdfs.printhosting.com\\DSM\\CUSTOMER_NAME\\DSMTemp'
+		DSMUSERS = '\\\\dsmprdfs.printhosting.com\\DSM\\' + CUSTOMER_NAME + '\\DSMUsers'
+		DSMTEMP = '\\\\dsmprdfs.printhosting.com\\DSM\\' + CUSTOMER_NAME + '\\DSMTemp'
 	} 
 	else {
 		DSMUSERS = 'C:\\DSMUsers'
@@ -69,9 +69,9 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	SERVICE_DOMAIN = 'printhosting.com'
 
 	DSM_BACKUP = 'C:\\DSM_Backup'
-	BACKUP_DSMICONFIGURATIONFILES = 'true'
+	BACKUP_DSMICONFIGURATIONFILES = 'false'
 	DATABASE_BACKUP = 'false'
-	SHRINK_DATABASE = 'false'
+	SHRINK_DATABASE = 'true'
 	DB_TIMEOUT = '30'
 	DSMIII = ''
 	DSMI_REPLICATION_MASTER = 'false'

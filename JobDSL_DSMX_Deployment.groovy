@@ -34,8 +34,8 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	DSM_BACKUP = 'C:\\DSM_Backup'
 	BACKUP_DSMXCONFIGURATIONFILES = 'true'
 	BACKUP_DSMX_LANDINGPAGEDATA = 'false'
-	DATABASE_BACKUP = 'true'
-	SHRINK_DATABASE = 'true'
+	DATABASE_BACKUP = 'false'
+	SHRINK_DATABASE = 'false'
 	DB_TIMEOUT = '30'
 
 	EMAILBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Email Backend'

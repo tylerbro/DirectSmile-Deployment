@@ -54,8 +54,8 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 
 	DSM_BACKUP = 'C:\\DSM_Backup'
 	BACKUP_DSMICONFIGURATIONFILES = 'true'
-	DATABASE_BACKUP = 'true'
-	SHRINK_DATABASE = 'true'
+	DATABASE_BACKUP = 'false'
+	SHRINK_DATABASE = 'false'
 	DB_TIMEOUT = '30'
 	DSMIII = ''
 	DSMI_REPLICATION_MASTER = 'false'

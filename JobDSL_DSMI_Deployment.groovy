@@ -146,7 +146,7 @@ job('DSMI_Deployment__' + CUSTOMER_NAME) {
 	scm {
 		git {
 			remote {
-				url ('https://github.com/Nobukins/DirectSmile-Deployment')
+				url ('https://github.com/Tylerbro/DirectSmile-Deployment')
 			}
 			branch ('*/master')
 			extensions {

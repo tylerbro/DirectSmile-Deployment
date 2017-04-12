@@ -32,7 +32,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	SERVICE_DOMAIN = 'printhosting.com'
 
 	DSM_BACKUP = 'C:\\DSM_Backup'
-	BACKUP_DSMXCONFIGURATIONFILES = 'true'
+	BACKUP_DSMXCONFIGURATIONFILES = 'false'
 	BACKUP_DSMX_LANDINGPAGEDATA = 'false'
 	DATABASE_BACKUP = 'false'
 	SHRINK_DATABASE = 'false'

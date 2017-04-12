@@ -48,13 +48,16 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	if (COMPUTER_NAME.contains('QA')) {
 		DSMUSERS = '\\\\dsmqafs.printhosting.com\\DSMI\\CUSTOMER_NAME\\DSMUsers'
 		DSMTEMP = '\\\\dsmqafs.printhosting.com\\DSMI\\CUSTOMER_NAME\\DSMTemp'
-	} Else if (COMPUTER_NAME.countains('PRDAPP5')) {
+	} 
+	Else if (COMPUTER_NAME.countains('PRDAPP5')) {
 		DSMUSERS = '\\\\ihsfs503\\DSM\\CUSTOMER_NAME\\DSMUsers'
 		DSMTEMP = '\\\\ihsfs503\\DSM\\CUSTOMER_NAME\\DSMTemp'
-	} Else if (COMPUTER_NAME.countains('PRD')) {
+	} 
+	Else if (COMPUTER_NAME.countains('PRD')) {
 		DSMUSERS = '\\\\dsmprdfs.printhosting.com\\DSM\\CUSTOMER_NAME\\DSMUsers'
 		DSMTEMP = '\\\\dsmprdfs.printhosting.com\\DSM\\CUSTOMER_NAME\\DSMTemp'
-	} else {
+	} 
+	else {
 		DSMUSERS = 'C:\DSMUsers'
 		DSMTEMP = 'C:\DSMTemp'
 	}

@@ -23,7 +23,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 
 	WEBSITES = 'C:\\inetpub\\wwwroot'	
 	DIRPROPERTY1 = 'C:\\inetpub\\wwwroot\\DSMO'
-	CNNAME = FQDN
+	CNNAME = '*'+ FQDN.split('.')[1] + FQDN.split('.')[2]
 	SQLINSTANCENAME = '.'
 	DSMI_SQLDATABASENAME = CUSTOMER_NAME + '_dsmodb'
 	IMGDBNAME = CUSTOMER_NAME + '_dsmoImages'

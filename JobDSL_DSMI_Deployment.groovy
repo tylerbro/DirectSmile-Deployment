@@ -24,8 +24,8 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	WEBSITES = 'C:\\inetpub\\wwwroot'	
 	DIRPROPERTY1 = 'C:\\inetpub\\wwwroot\\DSMO'
 	
-	if (FQDN.contains('myprintdesk.net') { CNNAME = '*.myprintdesk.net' } 
-	else if (FQDN.contains('xmediaservice.com') { CNNAME = '*.xmediaservice.com' } 
+	if (FQDN.contains('myprintdesk.net')) { CNNAME = '*.myprintdesk.net' } 
+	else if (FQDN.contains('xmediaservice.com')) { CNNAME = '*.xmediaservice.com' } 
 	else { CNNAME = FQDN }
 	
 	SQLINSTANCENAME = '.'

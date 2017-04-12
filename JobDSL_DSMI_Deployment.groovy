@@ -23,7 +23,11 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 
 	WEBSITES = 'C:\\inetpub\\wwwroot'	
 	DIRPROPERTY1 = 'C:\\inetpub\\wwwroot\\DSMO'
-	CNNAME = '*'+ FQDN.split('.')[1] + FQDN.split('.')[2]
+	
+	if (FQDN.contains('myprintdesk.net') { CNNAME = '*.myprintdesk.net' } 
+	else if (FQDN.contains('xmediaservice.com') { CNNAME = '*.xmediaservice.com' } 
+	else { CNNAME = FQDN }
+	
 	SQLINSTANCENAME = '.'
 	DSMI_SQLDATABASENAME = CUSTOMER_NAME + '_dsmodb'
 	IMGDBNAME = CUSTOMER_NAME + '_dsmoImages'

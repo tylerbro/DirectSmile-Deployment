@@ -44,8 +44,21 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 
 	DSMGPATH = 'C:\\Program Files (x86)\\DirectSmile Generator'
 	DSMXPATH = 'C:\\inetpub\\wwwroot'
-	DSMUSERS = 'C:\\DSMUsers'
-	DSMTEMP = 'C:\\DSMTemp'
+	
+	if (COMPUTER_NAME.contains('QA')) {
+		DSMUSERS = '\\\\dsmqafs.printhosting.com\\DSMI\\CUSTOMER_NAME\\DSMUsers'
+		DSMTEMP = '\\\\dsmqafs.printhosting.com\\DSMI\\CUSTOMER_NAME\\DSMTemp'
+	} Else if (COMPUTER_NAME.countains('PRDAPP5')) {
+		DSMUSERS = '\\\\ihsfs503\\DSM\\CUSTOMER_NAME\\DSMUsers'
+		DSMTEMP = '\\\\ihsfs503\\DSM\\CUSTOMER_NAME\\DSMTemp'
+	} Else if (COMPUTER_NAME.countains('PRD')) {
+		DSMUSERS = '\\\\dsmprdfs.printhosting.com\\DSM\\CUSTOMER_NAME\\DSMUsers'
+		DSMTEMP = '\\\\dsmprdfs.printhosting.com\\DSM\\CUSTOMER_NAME\\DSMTemp'
+	} else {
+		DSMUSERS = 'C:\DSMUsers'
+		DSMTEMP = 'C:\DSMTemp'
+	}
+	
 	DSMI_INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Online Backend'
 	CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'true'
 

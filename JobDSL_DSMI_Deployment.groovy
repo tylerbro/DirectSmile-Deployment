@@ -45,15 +45,15 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	DSMGPATH = 'C:\\Program Files (x86)\\DirectSmile Generator'
 	DSMXPATH = 'C:\\inetpub\\wwwroot'
 	
-	if (COMPUTER_NAME.contains('QA')) {
+	if (CUSTOMER_NAME.contains('QA')) {
 		DSMUSERS = '\\\\dsmqafs.printhosting.com\\DSMI\\CUSTOMER_NAME\\DSMUsers'
 		DSMTEMP = '\\\\dsmqafs.printhosting.com\\DSMI\\CUSTOMER_NAME\\DSMTemp'
 	} 
-	else if (COMPUTER_NAME.contains('PRDAPP5')) {
+	else if (CUSTOMER_NAME.contains('PRDAPP5')) {
 		DSMUSERS = '\\\\ihsfs503\\DSM\\CUSTOMER_NAME\\DSMUsers'
 		DSMTEMP = '\\\\ihsfs503\\DSM\\CUSTOMER_NAME\\DSMTemp'
 	} 
-	else if (COMPUTER_NAME.contains('PRD')) {
+	else if (CUSTOMER_NAME.contains('PRD')) {
 		DSMUSERS = '\\\\dsmprdfs.printhosting.com\\DSM\\CUSTOMER_NAME\\DSMUsers'
 		DSMTEMP = '\\\\dsmprdfs.printhosting.com\\DSM\\CUSTOMER_NAME\\DSMTemp'
 	} 

@@ -58,8 +58,8 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 		DSMTEMP = '\\\\dsmprdfs.printhosting.com\\DSM\\CUSTOMER_NAME\\DSMTemp'
 	} 
 	else {
-		DSMUSERS = 'C:\DSMUsers'
-		DSMTEMP = 'C:\DSMTemp'
+		DSMUSERS = 'C:\\DSMUsers'
+		DSMTEMP = 'C:\\DSMTemp'
 	}
 	
 	DSMI_INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Online Backend'

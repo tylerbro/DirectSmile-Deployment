@@ -24,9 +24,18 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	WEBSITES = 'C:\\inetpub\\wwwroot'	
 	DIRPROPERTY1 = 'C:\\inetpub\\wwwroot\\DSMO'
 	
-	if (FQDN.contains('myprintdesk.net')) { CNNAME = '*.myprintdesk.net' } 
-	else if (FQDN.contains('xmediaservice.com')) { CNNAME = '*.xmediaservice.com' } 
-	else { CNNAME = FQDN }
+	if (FQDN.contains('myprintdesk.net')) { 
+		CNNAME = '*.myprintdesk.net' 
+		ENABLEWF = '0'
+	} 
+	else if (FQDN.contains('xmediaservice.com')) { 
+		CNNAME = '*.xmediaservice.com' 
+		ENABLEWF = '1'
+	} 
+	else { 
+		CNNAME = FQDN 
+		ENABLEWF = '0'
+	}
 	
 	SQLINSTANCENAME = '.'
 	DSMI_SQLDATABASENAME = CUSTOMER_NAME + '_dsmodb'
@@ -59,7 +68,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	IISAPPNAME = 'DSMO'
 	SERVICE_EXE_NAME = 'DSMOnlineBackend.exe'
 	LOG_LEVEL = '1'
-	ENABLEWF = '0'
+	
 
 	//Set Default Credential ID
 		DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'

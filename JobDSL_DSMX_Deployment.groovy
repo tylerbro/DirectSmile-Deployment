@@ -16,6 +16,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 } else {
 	//Define default value for all var except Seed Job parameters
     DEBUG_RUN = 'true'
+    	CUSTOMER_NAME = CUSTOMER_NAME.toUpperCase()
 	DSMOURL= 'http://' + FQDN + '/dsmo'	
 	DSMXURL = 'http://' + FQDN
 	

@@ -17,6 +17,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	}
 } else {
     DEBUG_RUN = 'true'
+    CUSTOMER_NAME = CUSTOMER_NAME.toUpperCase()
 	DSMOURL= 'http://' + FQDN + '/dsmo'	
 	DSMXURL = 'http://' + FQDN
 	DSMI_INSTALLER_FILE_PATH = ''

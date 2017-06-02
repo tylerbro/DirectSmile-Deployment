@@ -15,7 +15,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	}
 } else {
 	//Define default value for all var except Seed Job parameters
-    DEBUG_RUN = 'true'
+    DEBUG_RUN = 'false'
     	CUSTOMER_NAME = CUSTOMER_NAME.toUpperCase()
 	DSMOURL= 'http://' + FQDN + '/dsmo'	
 	DSMXURL = 'http://' + FQDN
@@ -92,7 +92,7 @@ if (binding.variables.containsKey('TRIGGER_BLOCK_LIMIT')) {
 job('DSMX_Deployment__' + CUSTOMER_NAME) {
 	description('Update DSMX to one of Release, Release Candidate, or Developement version')
     parameters {
-        booleanParam('DEBUG_RUN', DEBUG_RUN.toBoolean(), '<p>If DEBUG_RUN=True all commands will be echoed to the screeb only. Target system will not be touched.</p>')
+        booleanParam('DEBUG_RUN', DEBUG_RUN.toBoolean(), '<p>If DEBUG_RUN=True all commands will be echoed to the screen only. Target system will not be touched.</p>')
 		stringParam('CUSTOMER_NAME', CUSTOMER_NAME,'<h3>Customer Name</h3><p>this value become as post-fix for generated deploy jobs</p>')
 		stringParam('FQDN', FQDN ,'<h3>Fully Qualified Domain Name</h3><p>Customer server FQDN which listedn by DSMInstallation Service</p>')
 		stringParam('DSMXURL',DSMXURL,'<p>http:// prefix is needed</p>')

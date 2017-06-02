@@ -45,21 +45,37 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	DSMGPATH = 'C:\\Program Files (x86)\\DirectSmile Generator'
 	DSMXPATH = 'C:\\inetpub\\wwwroot'
 	
+	//Set Default Credential ID to ensure things dont break if credentials are not found.
+	DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'
+	DEFAULT_LOGIN_CRDENTIAL_ID = 'Example-Login-Credential-ID'
+	
 	if (CUSTOMER_NAME.contains('QA')) {
 		DSMUSERS = '\\\\dsmqafs.printhosting.com\\DSMI\\' + CUSTOMER_NAME + '\\DSMUsers'
 		DSMTEMP = '\\\\dsmqafs.printhosting.com\\DSMI\\' + CUSTOMER_NAME + '\\DSMTemp'
+		SQL_CREDENTIAL = CUSTOMER_NAME + '_SQLCredentials'
+		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = 'DSMQA_Auto_Login'
+		LOGINUSERFORBACKEND_CREDENTIAL = 'DSMQA_Auto_Login'
 	} 
 	else if (CUSTOMER_NAME.contains('PRDAPP5')) {
 		DSMUSERS = '\\\\ihsfs503\\DSM\\' + CUSTOMER_NAME + '\\DSMUsers'
 		DSMTEMP = '\\\\ihsfs503\\DSM\\' + CUSTOMER_NAME + '\\DSMTemp'
+		SQL_CREDENTIAL = CUSTOMER_NAME + '_SQLCredentials'
+		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = 'DSMPRD_Auto_Login'
+		LOGINUSERFORBACKEND_CREDENTIAL = 'DSMPRD_Auto_Login'
 	} 
 	else if (CUSTOMER_NAME.contains('PRD')) {
 		DSMUSERS = '\\\\dsmprdfs.printhosting.com\\DSM\\' + CUSTOMER_NAME + '\\DSMUsers'
 		DSMTEMP = '\\\\dsmprdfs.printhosting.com\\DSM\\' + CUSTOMER_NAME + '\\DSMTemp'
+		SQL_CREDENTIAL = CUSTOMER_NAME + '_SQLCredentials'
+		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = 'DSMPRD_Auto_Login'
+		LOGINUSERFORBACKEND_CREDENTIAL = 'DSMPRD_Auto_Login'
 	} 
 	else {
 		DSMUSERS = 'C:\\DSMUsers'
 		DSMTEMP = 'C:\\DSMTemp'
+		SQL_CREDENTIAL = DEFAULT_SQL_CRDENTIAL_ID
+		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
+		LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
 	}
 	
 	DSMI_INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Online Backend'
@@ -84,21 +100,6 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	IISAPPNAME = 'DSMO'
 	SERVICE_EXE_NAME = 'DSMOnlineBackend.exe'
 	LOG_LEVEL = '1'
-	
-
-	//Set Default Credential ID
-		DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'
-		DEFAULT_LOGIN_CRDENTIAL_ID = 'Example-Login-Credential-ID'
-		
-		SQL_CREDENTIAL = DEFAULT_SQL_CRDENTIAL_ID
-		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
-		LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
-	
-	if (CUSTOMER_NAME.contains('QA')) {
-		SQL_CREDENTIAL = 'DSMIQAAPP01_SQLCredentials'
-		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = 'DSMQA_Auto_Login'
-		LOGINUSERFORBACKEND_CREDENTIAL = 'DSMQA_Auto_Login'
-	}
 }
 
 job('DSMI_Deployment__' + CUSTOMER_NAME) {

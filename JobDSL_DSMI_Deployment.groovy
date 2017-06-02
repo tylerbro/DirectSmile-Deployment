@@ -16,7 +16,7 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 		LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
 	}
 } else {
-    DEBUG_RUN = 'true'
+    DEBUG_RUN = 'false'
     CUSTOMER_NAME = CUSTOMER_NAME.toUpperCase()
 	DSMOURL= 'http://' + FQDN + '/dsmo'	
 	DSMXURL = 'http://' + FQDN

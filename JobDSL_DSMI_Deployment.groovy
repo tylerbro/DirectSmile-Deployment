@@ -50,21 +50,21 @@ if (binding.variables.containsKey('DEBUG_RUN')) {
 	DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'
 	DEFAULT_LOGIN_CRDENTIAL_ID = 'Example-Login-Credential-ID'
 	
-	if (CUSTOMER_NAME.toUpperCase().contains('QA')) {
+	if (CUSTOMER_NAME.contains('QA')) {
 		DSMUSERS = '\\\\dsmqafs.printhosting.com\\DSMI\\' + CUSTOMER_NAME + '\\DSMUsers'
 		DSMTEMP = '\\\\dsmqafs.printhosting.com\\DSMI\\' + CUSTOMER_NAME + '\\DSMTemp'
 		SQL_CREDENTIAL = CUSTOMER_NAME + '_SQLCredentials'
 		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = 'DSMQA_Auto_Login'
 		LOGINUSERFORBACKEND_CREDENTIAL = 'DSMQA_Auto_Login'
 	} 
-	else if (CUSTOMER_NAME.toUpperCase().contains('PRDAPP5')) {
+	else if (CUSTOMER_NAME.contains('PRDAPP5')) {
 		DSMUSERS = '\\\\ihsfs503\\DSM\\' + CUSTOMER_NAME + '\\DSMUsers'
 		DSMTEMP = '\\\\ihsfs503\\DSM\\' + CUSTOMER_NAME + '\\DSMTemp'
 		SQL_CREDENTIAL = CUSTOMER_NAME + '_SQLCredentials'
 		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = 'DSMPRD_Auto_Login'
 		LOGINUSERFORBACKEND_CREDENTIAL = 'DSMPRD_Auto_Login'
 	} 
-	else if (CUSTOMER_NAME.toUpperCase().contains('PRD')) {
+	else if (CUSTOMER_NAME.contains('PRD')) {
 		DSMUSERS = '\\\\dsmprdfs.printhosting.com\\DSM\\' + CUSTOMER_NAME + '\\DSMUsers'
 		DSMTEMP = '\\\\dsmprdfs.printhosting.com\\DSM\\' + CUSTOMER_NAME + '\\DSMTemp'
 		SQL_CREDENTIAL = CUSTOMER_NAME + '_SQLCredentials'

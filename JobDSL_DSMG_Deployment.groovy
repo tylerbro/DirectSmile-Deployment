@@ -3,7 +3,7 @@
 if (binding.variables.containsKey('DEBUG_RUN')) {
 	//Inherite value from env var comes Jenkins
 } else {
-    DEBUG_RUN = 'true'
+    DEBUG_RUN = 'false'
     	CUSTOMER_NAME = CUSTOMER_NAME.toUpperCase()
 	DSMG_INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile Generator'
 	DSMG_INSTALLER_FILE_PATH = ''

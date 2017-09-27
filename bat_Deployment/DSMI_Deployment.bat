@@ -151,6 +151,14 @@ IF "%DSMXPATH%" == "" (
 	SET DSMXPATH_COMMAND=DSMXPATH="%DSMXPATH%"	)	
 	
 ECHO +------------------------------------------------------------------------------------+
+ECHO Set MSILOG to support custom Installation command		
+ECHO +------------------------------------------------------------------------------------+		
+ECHO		
+IF "%DSMI_MSILOG%" == "" (		
+	SET "MSILOG_COMMAND=" ) ELSE (		
+	SET MSILOG_COMMAND=MSILOG="%DSMI_MSILOG%")
+
+ECHO +------------------------------------------------------------------------------------+
 ECHO Create Common part of Deployment command for DSMI 
 ECHO +------------------------------------------------------------------------------------+
 ECHO
@@ -160,7 +168,7 @@ ECHO +--------------------------------------------------------------------------
 ECHO Create Optional part of Deployment command for DSMI 
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-SET OPTIONAL_COMMAND=AVOID_USER_SESSION="%AVOID_USER_SESSION%" BACKENDROUTINGARG="%BACKENDROUTINGARG%" SHORTTIMEOUT="%SHORTTIMEOUT%" CROSSDOMAINURI=%CROSSDOMAINURI% IISAPPNAME="%IISAPPNAME%" %NOASS_VALUE% %SERVICE_EXE_NAME_VALUE% %DSMIII_VALUE%
+SET OPTIONAL_COMMAND=AVOID_USER_SESSION="%AVOID_USER_SESSION%" BACKENDROUTINGARG="%BACKENDROUTINGARG%" SHORTTIMEOUT="%SHORTTIMEOUT%" CROSSDOMAINURI=%CROSSDOMAINURI% IISAPPNAME="%IISAPPNAME%" %NOASS_VALUE% %SERVICE_EXE_NAME_VALUE% %DSMIII_VALUE% %MSILOG_COMMAND%
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create SQL Auth part of Deployment command
@@ -200,6 +208,9 @@ ECHO +--------------------------------------------------------------------------
 ECHO
 
 IF "%DEBUG_RUN%" == "true" (
+GOTO DEBUG )
+
+IF "%DSMI_DEPLOY%" == "false" (
 GOTO DEBUG )
 
 IF "%BACKUP_DSMICONFIGURATIONFILES%" == "true" (

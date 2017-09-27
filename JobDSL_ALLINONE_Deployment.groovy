@@ -170,21 +170,21 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 	parameters {
 	//***************************************************************************
 	//******* General Arguments ********
-        booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screen only. Target system will not be touched. And it does not trigger downstream jobs</p>')
-        booleanParam('DSMG_DEPLOY', false, '<p>If DSMG_DEPLOY=True, DSMG Deployment commands will be executed. If DSMG_DEPLOY=False, then Target system will not update DSMG component.</p>')
-        booleanParam('DSMI_DEPLOY', false, '<p>If DSMI_DEPLOY=True, DSMI Deployment commands will be executed. If DSMI_DEPLOY=False, then Target system will not update DSMI component.</p>')
-        booleanParam('DSMX_DEPLOY', false, '<p>If DSMX_DEPLOY=True, DSMX Deployment commands will be executed. If DSMX_DEPLOY=False, then Target system will not update DSMX component.</p>')
+        	booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screen only. Target system will not be touched. And it does not trigger downstream jobs</p>')
+        	booleanParam('DSMG_DEPLOY', false, '<p>If DSMG_DEPLOY=True, DSMG Deployment commands will be executed. If DSMG_DEPLOY=False, then Target system will not update DSMG component.</p>')
+        	booleanParam('DSMI_DEPLOY', false, '<p>If DSMI_DEPLOY=True, DSMI Deployment commands will be executed. If DSMI_DEPLOY=False, then Target system will not update DSMI component.</p>')
+        	booleanParam('DSMX_DEPLOY', false, '<p>If DSMX_DEPLOY=True, DSMX Deployment commands will be executed. If DSMX_DEPLOY=False, then Target system will not update DSMX component.</p>')
 		stringParam('FQDN', FQDN ,'<p>Fully Qualified Domain Name</p>')
 		stringParam('SQLINSTANCENAME',SQLINSTANCENAME,'Instance name of your SQL Server<p>.\\SQLEXPRESS</p>')
 	//***************************************************************************
 	//******* Deployment Version selector
 	//***************************************************************************
-        choiceParam('DSMG_DEPLOY_VERSION',['DSMG_SPECIFIC_VERSION','DSMG_LATEST_RELEASE','DSMG_DSF_RELEASE'],'')
+        	choiceParam('DSMG_DEPLOY_VERSION',['DSMG_SPECIFIC_VERSION','DSMG_LATEST_RELEASE','DSMG_DSF_RELEASE'],'')
 		choiceParam('DSMI_DEPLOY_VERSION', ['DSMI_SPECIFIC_VERSION','DSMI_LATEST_RELEASE','DSMI_DSF_RELEASE'],'')
 		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_SPECIFIC_VERSION','DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE'],'')
 		stringParam('DSMG_INSTALLER_FILE_PATH', DSMG_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMG installer')
 		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMI installer')
-		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMX installer')
+		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMX installer</br></br></br><h3><font color="red">DO NOT EDIT BELOW THIS LINE</h3>')
 	//***************************************************************************
 	//******* DSMG Relates Arguments
 	//***************************************************************************

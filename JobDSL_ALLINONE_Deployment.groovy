@@ -55,8 +55,43 @@ if (binding.variables.get('DEBUG_RUN')) {
 		SERVICE_EXE_NAME = 'DSMOnlineBackend.exe'
 		LOG_LEVEL = '1'
 	//***************************************************************************
-	//******* DSMI Variable Arguments
-	//***************************************************************************//
+	//******* DSMX Relates Arguments
+	//***************************************************************************
+		EMAILBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Email Backend'
+		TRIGGERBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Trigger Service'
+		LANDINGPAGEDATADIR = 'C:\\inetpub\\wwwroot\\LandingPageData'
+		SHAREDSETTINGSFILE = ''
+		DSMXSERVERKEY = ''
+		DEFAULTREDIRECTURL = ''
+		DSMIMASTERURL = ''
+		DSMIFRONTENDURL = ''
+		FAILOVERENDPOINT = ''
+		WEBSITENAME = 'Default Web Site'
+		APPPOOLNAME = 'DefaultAppPool'
+		STATICCOMPRESSIONOPTION = 'false'
+	//***************************************************************************
+	//******* DSMI and DSMX common Arguments
+	//***************************************************************************
+		DSMOURL= 'http://' + FQDN + '/dsmo'	
+		DSMXURL = 'http://' + FQDN
+		WEBSITES = 'C:\\inetpub\\wwwroot'
+	//***************************************************************************
+	//******* DSMI and DSMX common Arguments - Optional configuration
+	//***************************************************************************
+		CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'true'
+		CONFIGURE_LOGINUSERFORBACKEND = 'true'
+		SERVICE_DOMAIN = 'printhosting.com'
+	//***************************************************************************
+	//******* DSMI and DSMX common Arguments - SQL Database
+	//***************************************************************************
+		SQLINSTANCENAME = '.'
+		DSMI_SQLDATABASENAME = SERVERNAME + '_dsmodb'
+		IMGDBNAME = SERVERNAME + '_dsmoImages'
+		DSMX_SQLDATABASENAME = SERVERNAME + '_LP3_DSM'	
+		SQL_AUTHENTICATION = 'true'
+	//***************************************************************************
+	//******* DSMI and DSMX common Arguments - Set Default Credential ID
+	//***************************************************************************
 		DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'
 		DEFAULT_LOGIN_CRDENTIAL_ID = 'Example-Login-Credential-ID'
 		if (FQDN.toUpperCase().contains('MYPRINTDESK.NET')) { 
@@ -98,50 +133,7 @@ if (binding.variables.get('DEBUG_RUN')) {
 			SQL_CREDENTIAL = DEFAULT_SQL_CRDENTIAL_ID
 			IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
 			LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
-		}
-	//***************************************************************************
-	//******* DSMX Relates Arguments
-	//***************************************************************************
-		EMAILBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Email Backend'
-		TRIGGERBACKEND = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Trigger Service'
-		LANDINGPAGEDATADIR = 'C:\\inetpub\\wwwroot\\LandingPageData'
-		SHAREDSETTINGSFILE = ''
-		DSMXSERVERKEY = ''
-		DEFAULTREDIRECTURL = ''
-		DSMIMASTERURL = ''
-		DSMIFRONTENDURL = ''
-		FAILOVERENDPOINT = ''
-		WEBSITENAME = 'Default Web Site'
-		APPPOOLNAME = 'DefaultAppPool'
-		STATICCOMPRESSIONOPTION = 'false'
-	//***************************************************************************
-	//******* DSMI and DSMX common Arguments
-	//***************************************************************************
-		DSMOURL= 'http://' + FQDN + '/dsmo'	
-		DSMXURL = 'http://' + FQDN
-		WEBSITES = 'C:\\inetpub\\wwwroot'
-	//***************************************************************************
-	//******* DSMI and DSMX common Arguments - Optional configuration
-	//***************************************************************************
-		CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'true'
-		CONFIGURE_LOGINUSERFORBACKEND = 'true'
-		SERVICE_DOMAIN = 'printhosting.com'
-	//***************************************************************************
-	//******* DSMI and DSMX common Arguments - SQL Database
-	//***************************************************************************
-		SQLINSTANCENAME = '.'
-		DSMI_SQLDATABASENAME = SERVERNAME + '_dsmodb'
-		IMGDBNAME = SERVERNAME + '_dsmoImages'
-		DSMX_SQLDATABASENAME = SERVERNAME + '_LP3_DSM'	
-		SQL_AUTHENTICATION = 'true'
-	//***************************************************************************
-	//******* DSMI and DSMX common Arguments - Set Default Credential ID
-	//***************************************************************************
-		DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'
-		DEFAULT_LOGIN_CRDENTIAL_ID = 'Example-Login-Credential-ID'
-		SQL_CREDENTIAL = DEFAULT_SQL_CRDENTIAL_ID
-		IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
-		LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
+		}		
 	//***************************************************************************
 	//******* DSMIS Backup command common Arguments
 	//***************************************************************************
@@ -174,25 +166,25 @@ if (binding.variables.get('DSMX_MSILOG')) {
 // *******************************************************************************************************
 // Start Actual Jenkins JobDSL
 // *******************************************************************************************************
-println "Starting Jenkins JobDSL"
 job('DirectSmile__Deployment_'+ SERVERNAME) {
 	parameters {
 	//***************************************************************************
 	//******* General Arguments ********
-        	booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screen only. Target system will not be touched. And it does not trigger downstrem jobs</p>')
-        	booleanParam('DSMG_DEPLOY', false, '<p>If DSMG_DEPLOY=True, DSMG Deployment commands will be executed. If DSMG_DEPLOY=False, then Target system will not update DSMG component.</p>')
-        	booleanParam('DSMI_DEPLOY', false, '<p>If DSMI_DEPLOY=True, DSMI Deployment commands will be executed. If DSMI_DEPLOY=False, then Target system will not update DSMI component.</p>')
-        	booleanParam('DSMX_DEPLOY', false, '<p>If DSMX_DEPLOY=True, DSMX Deployment commands will be executed. If DSMX_DEPLOY=False, then Target system will not update DSMX component.</p>')
-		stringParam('FQDN', FQDN ,'<h3>Fully Qualified Domain Name</h3><p>Customer server FQDN which listened by DSMInstallation Service</p>')
+        booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screen only. Target system will not be touched. And it does not trigger downstream jobs</p>')
+        booleanParam('DSMG_DEPLOY', false, '<p>If DSMG_DEPLOY=True, DSMG Deployment commands will be executed. If DSMG_DEPLOY=False, then Target system will not update DSMG component.</p>')
+        booleanParam('DSMI_DEPLOY', false, '<p>If DSMI_DEPLOY=True, DSMI Deployment commands will be executed. If DSMI_DEPLOY=False, then Target system will not update DSMI component.</p>')
+        booleanParam('DSMX_DEPLOY', false, '<p>If DSMX_DEPLOY=True, DSMX Deployment commands will be executed. If DSMX_DEPLOY=False, then Target system will not update DSMX component.</p>')
+		stringParam('FQDN', FQDN ,'<p>Fully Qualified Domain Name</p>')
+		stringParam('SQLINSTANCENAME',SQLINSTANCENAME,'Instance name of your SQL Server<p>.\\SQLEXPRESS</p>')
 	//***************************************************************************
 	//******* Deployment Version selector
 	//***************************************************************************
-        	choiceParam('DSMG_DEPLOY_VERSION',['DSMG_SPECIFIC_VERSION','DSMG_LATEST_RELEASE','DSMG_DSF_RELEASE'],'')
+        choiceParam('DSMG_DEPLOY_VERSION',['DSMG_SPECIFIC_VERSION','DSMG_LATEST_RELEASE','DSMG_DSF_RELEASE'],'')
 		choiceParam('DSMI_DEPLOY_VERSION', ['DSMI_SPECIFIC_VERSION','DSMI_LATEST_RELEASE','DSMI_DSF_RELEASE'],'')
-		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_SPECIFIC_VERSION','DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE'],'<h2>Select version you want to deploy</h2>')
-		stringParam('DSMG_INSTALLER_FILE_PATH', DSMG_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported')
-		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported')
-		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported')
+		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_SPECIFIC_VERSION','DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE'],'')
+		stringParam('DSMG_INSTALLER_FILE_PATH', DSMG_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMG installer')
+		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMI installer')
+		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMX installer')
 	//***************************************************************************
 	//******* DSMG Relates Arguments
 	//***************************************************************************
@@ -227,12 +219,11 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 		credentialsParam('LOGINUSERFORBACKEND_CREDENTIAL') {
             		type('com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl')
             		defaultValue(LOGINUSERFORBACKEND_CREDENTIAL)
-            		description('<h3>Login User for Backend</h3></br><p>In case you run DirectSmile as Service mode, please add new credential in here, then specify your created Credential in here</p>')
+            		description('<p>In case you run DirectSmile as Service mode, please add new credential in here, then specify your created Credential in here</p>')
         	}
 	//***************************************************************************
 	//******* DSMI and DSMX common Arguments - SQL Database
 	//***************************************************************************
-		stringParam('SQLINSTANCENAME',SQLINSTANCENAME,'Instance name of your SQL Server<p>.\\SQLEXPRESS</p>')
 		stringParam('DSMI_SQLDATABASENAME',DSMI_SQLDATABASENAME,'Name of database for the DSMI-default, "dsmodb"')
 		stringParam('IMGDBNAME',IMGDBNAME,'Name of dsmoImages database*New from Ver7.0.0.53')
 		stringParam('DSMX_SQLDATABASENAME',DSMX_SQLDATABASENAME,'Name of database for the DSMX-default, "LP3_DSM"')
@@ -241,7 +232,7 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 		credentialsParam('SQL_CREDENTIAL') {
             		type('com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl')
 		        defaultValue(SQL_CREDENTIAL)
-            		description('<h3>SQL Authentication</h3></br><p>In case you use SQL Authentication, please add new credential in here, then specify your created Credential in here</p>')
+            		description('<p>In case you use SQL Authentication, please add new credential in here, then specify your created Credential in here</p>')
         	}
 	//***************************************************************************
 	//******* DSMIS Backup command common Arguments
@@ -297,7 +288,6 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 	scm {
 		git {
 			remote {
-			println "Attempting to connect to BitBucket URL"
 				url ('https://github.com/Tylerbro/DirectSmile-Deployment')
 				//credentials('fd99d794-0245-4a6b-a0fa-1d9bb5ffad46')
 			}

@@ -16,6 +16,7 @@ if (binding.variables.get('DEBUG_RUN')) {
 	//***************************************************************************
 	//******* General Arguments
 	//***************************************************************************
+		SERVERNAME=SERVERNAME.toUpperCase()
 		DEBUG_RUN = 'true'
 		DSMG_DEPLOY = 'false'
 		DSMI_DEPLOY = 'false'
@@ -39,13 +40,10 @@ if (binding.variables.get('DEBUG_RUN')) {
 	//******* DSMI Relates Arguments
 	//***************************************************************************
 		DIRPROPERTY1 = 'C:\\inetpub\\wwwroot\\DSMO'
-		CNNAME = FQDN
 		DSMGPATH = 'C:\\Program Files (x86)\\DirectSmile Generator'
-		DSMXPATH = 'C:\\inetpub\\wwwroot'
-		DSMUSERS = 'C:\\DSMUsers'
-		DSMTEMP = 'C:\\DSMTemp'
+		DSMXPATH = 'C:\\inetpub\\wwwroot'	
 		DSMI_INSTALLDIR = 'C:\\Program Files (x86)\\DirectSmile\\DirectSmile Online Backend'
-		DSMIII = 'DSMI01'
+		DSMIII = ''
 		DSMI_REPLICATION_MASTER = 'false'
 		DSMI_REPLICATION_SLAVE = 'false'
 		AVOID_USER_SESSION = 'false'
@@ -56,7 +54,51 @@ if (binding.variables.get('DEBUG_RUN')) {
 		IISAPPNAME = 'DSMO'
 		SERVICE_EXE_NAME = 'DSMOnlineBackend.exe'
 		LOG_LEVEL = '1'
-		ENABLEWF = '1'
+	//***************************************************************************
+	//******* DSMI Variable Arguments
+	//***************************************************************************//
+		DEFAULT_SQL_CRDENTIAL_ID = 'Example-SQL-Credential-ID'
+		DEFAULT_LOGIN_CRDENTIAL_ID = 'Example-Login-Credential-ID'
+		if (FQDN.toUpperCase().contains('MYPRINTDESK.NET')) { 
+			CNNAME = '*.myprintdesk.net' 
+			ENABLEWF = '0'
+		}
+		else if (FQDN.toUpperCase().contains('XMEDIASERVICE.COM')) { 
+			CNNAME = '*.xmediaservice.com' 
+			ENABLEWF = '1'
+		}
+		else {
+			CNNAME = FQDN 
+			ENABLEWF = '0'
+		}
+		if (SERVERNAME.contains('QA')) {
+			DSMUSERS = '\\\\dsmqafs.printhosting.com\\DSMI\\' + SERVERNAME + '\\DSMUsers'
+			DSMTEMP = '\\\\dsmqafs.printhosting.com\\DSMI\\' + SERVERNAME + '\\DSMTemp'
+			SQL_CREDENTIAL = SERVERNAME + '_SQLCredentials'
+			IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = 'DSMQA_Auto_Login'
+			LOGINUSERFORBACKEND_CREDENTIAL = 'DSMQA_Auto_Login'
+		} 
+		else if (SERVERNAME.contains('PRDAPP5')) {
+			DSMUSERS = '\\\\ihsfs503\\DSM\\' + SERVERNAME + '\\DSMUsers'
+			DSMTEMP = '\\\\ihsfs503\\DSM\\' + SERVERNAME + '\\DSMTemp'
+			SQL_CREDENTIAL = SERVERNAME + '_SQLCredentials'
+			IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = 'DSMPRD_Auto_Login'
+			LOGINUSERFORBACKEND_CREDENTIAL = 'DSMPRD_Auto_Login'
+		} 
+		else if (SERVERNAME.contains('PRD')) {
+			DSMUSERS = '\\\\dsmprdfs.printhosting.com\\DSM\\' + SERVERNAME + '\\DSMUsers'
+			DSMTEMP = '\\\\dsmprdfs.printhosting.com\\DSM\\' + SERVERNAME + '\\DSMTemp'
+			SQL_CREDENTIAL = SERVERNAME + '_SQLCredentials'
+			IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = 'DSMPRD_Auto_Login'
+			LOGINUSERFORBACKEND_CREDENTIAL = 'DSMPRD_Auto_Login'
+		} 
+		else {
+			DSMUSERS = 'C:\\DSMUsers'
+			DSMTEMP = 'C:\\DSMTemp'
+			SQL_CREDENTIAL = DEFAULT_SQL_CRDENTIAL_ID
+			IISAPPLICATIONPOOLIDENTITY_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
+			LOGINUSERFORBACKEND_CREDENTIAL = DEFAULT_LOGIN_CRDENTIAL_ID
+		}
 	//***************************************************************************
 	//******* DSMX Relates Arguments
 	//***************************************************************************
@@ -81,17 +123,17 @@ if (binding.variables.get('DEBUG_RUN')) {
 	//***************************************************************************
 	//******* DSMI and DSMX common Arguments - Optional configuration
 	//***************************************************************************
-		CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'false'
-		CONFIGURE_LOGINUSERFORBACKEND = 'false'
-		SERVICE_DOMAIN = ''
+		CONFIGURE_IISAPPLICATIONPOOLIDENTITY_USER = 'true'
+		CONFIGURE_LOGINUSERFORBACKEND = 'true'
+		SERVICE_DOMAIN = 'printhosting.com'
 	//***************************************************************************
 	//******* DSMI and DSMX common Arguments - SQL Database
 	//***************************************************************************
 		SQLINSTANCENAME = '.'
-		DSMI_SQLDATABASENAME = 'dsmodb'
-		IMGDBNAME = 'dsmoImages'
-		DSMX_SQLDATABASENAME = 'LP3_DSM'	
-		SQL_AUTHENTICATION = 'false'
+		DSMI_SQLDATABASENAME = SERVERNAME + '_dsmodb'
+		IMGDBNAME = SERVERNAME + '_dsmoImages'
+		DSMX_SQLDATABASENAME = SERVERNAME + '_LP3_DSM'	
+		SQL_AUTHENTICATION = 'true'
 	//***************************************************************************
 	//******* DSMI and DSMX common Arguments - Set Default Credential ID
 	//***************************************************************************
@@ -104,11 +146,11 @@ if (binding.variables.get('DEBUG_RUN')) {
 	//******* DSMIS Backup command common Arguments
 	//***************************************************************************
 		DSM_BACKUP = 'C:\\DSM_Backup'
-		BACKUP_DSMICONFIGURATIONFILES = 'true'
-		BACKUP_DSMXCONFIGURATIONFILES = 'true'
+		BACKUP_DSMICONFIGURATIONFILES = 'false'
+		BACKUP_DSMXCONFIGURATIONFILES = 'false'
 		BACKUP_DSMX_LANDINGPAGEDATA = 'false'
-		DATABASE_BACKUP = 'true'
-		SHRINK_DATABASE = 'true'
+		DATABASE_BACKUP = 'false'
+		SHRINK_DATABASE = 'false'
 		DB_TIMEOUT = '30'
 	//***************************************************************************
 }
@@ -133,21 +175,21 @@ if (binding.variables.get('DSMX_MSILOG')) {
 // Start Actual Jenkins JobDSL
 // *******************************************************************************************************
 println "Starting Jenkins JobDSL"
-job('DirectSmile CTP 01 - DSMProduct DSL base Deployment') {
+job('DirectSmile__Deployment_'+ SERVERNAME) {
 	parameters {
 	//***************************************************************************
 	//******* General Arguments ********
         booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screen only. Target system will not be touched. And it does not trigger downstrem jobs</p>')
-        booleanParam('DSMG_DEPLOY', false, '<p>If DSMG_DEPLOY=True, DSMG Deployment commands will be executed.</p><br/><p>DSMG_DEPLOY=False, then Target system will not be touched.</p>')
-        booleanParam('DSMI_DEPLOY', false, '<p>If DSMI_DEPLOY=True, DSMI Deployment commands will be executed.</p><br/><p>DSMI_DEPLOY=False, then Target system will not be touched.</p>')
-        booleanParam('DSMX_DEPLOY', false, '<p>If DSMX_DEPLOY=True, DSMX Deployment commands will be executed.</p><br/><p>DSMX_DEPLOY=False, then Target system will not be touched.</p>')
+        booleanParam('DSMG_DEPLOY', false, '<p>If DSMG_DEPLOY=True, DSMG Deployment commands will be executed.</p><p>DSMG_DEPLOY=False, then Target system will not be touched.</p>')
+        booleanParam('DSMI_DEPLOY', false, '<p>If DSMI_DEPLOY=True, DSMI Deployment commands will be executed.</p><p>DSMI_DEPLOY=False, then Target system will not be touched.</p>')
+        booleanParam('DSMX_DEPLOY', false, '<p>If DSMX_DEPLOY=True, DSMX Deployment commands will be executed.</p><p>DSMX_DEPLOY=False, then Target system will not be touched.</p>')
 		stringParam('FQDN', FQDN ,'<h3>Fully Qualified Domain Name</h3><p>Customer server FQDN which listedn by DSMInstallation Service</p>')
 	//***************************************************************************
 	//******* Deployment Version selector
 	//***************************************************************************
-        choiceParam('DSMG_DEPLOY_VERSION', ['DSMG_LATEST_RELEASE','DSMG_DSF_RELEASE','DSMG_SPECIFIC_VERSION'],'<h2>Select version you want to deploy</h2>')
-		choiceParam('DSMI_DEPLOY_VERSION', ['DSMI_LATEST_RELEASE','DSMI_DSF_RELEASE','DSMI_SPECIFIC_VERSION'],'<h2>Select version you want to deploy</h2>')
-		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE','DSMX_SPECIFIC_VERSION'],'<h2>Select version you want to deploy</h2>')
+        choiceParam('DSMG_DEPLOY_VERSION',['DSMG_SPECIFIC_VERSION','DSMG_LATEST_RELEASE','DSMG_DSF_RELEASE'],'<h2>Select version you want to deploy</h2>')
+		choiceParam('DSMI_DEPLOY_VERSION', ['DSMI_SPECIFIC_VERSION','DSMI_LATEST_RELEASE','DSMI_DSF_RELEASE'],'<h2>Select version you want to deploy</h2>')
+		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_SPECIFIC_VERSION','DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE'],'<h2>Select version you want to deploy</h2>')
 		stringParam('DSMG_INSTALLER_FILE_PATH', DSMG_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported</p><ul> <li>Example input: (URL) <a href="http://directsmile.blob.core.windows.net/installer/dsmg.msi">http://directsmile.blob.core.windows.net/installer/dsmg.msi<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmg.msi">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmg.msi</a></li> </ul>')
 		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported</p><ul> <li>Example input: (URL) <a href="http://directsmile.blob.core.windows.net/installer/dsmi.msi">http://directsmile.blob.core.windows.net/installer/dsmi.msi<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmi.msi">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmi.msi</a></li> </ul>')
 		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, '<h3>Abosolute File Path or URL</h3><p>You can use local directory path as value in here, as well as UNC path is supported</p><ul> <li>Example input: (URL) <a href="http://directsmile.blob.core.windows.net/installer/dsmx.msi">http://directsmile.blob.core.windows.net/installer/dsmx.msi<br /></a></li> <li>Example input: (UNC)&nbsp; <a href="\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmx.msi">\\\\NetworkAccessStorage\\DirectSmile\\Installer\\dsmx.msi</a></li> </ul>')
@@ -257,7 +299,7 @@ job('DirectSmile CTP 01 - DSMProduct DSL base Deployment') {
 		git {
 			remote {
 			println "Attempting to connect to BitBucket URL"
-				url ('https://BrownT322@bitbucket.org/BrownT322/DirectSmile_SingleInstaller.git')
+				url ('https://github.com/Tylerbro/DirectSmile-Deployment')
 				//credentials('fd99d794-0245-4a6b-a0fa-1d9bb5ffad46')
 			}
 			branch ('*/master')

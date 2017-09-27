@@ -184,7 +184,7 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_SPECIFIC_VERSION','DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE'],'')
 		stringParam('DSMG_INSTALLER_FILE_PATH', DSMG_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMG installer')
 		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMI installer')
-		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMX installer</br></br></br><h1><font color="red">DO NOT EDIT BELOW THIS LINE</h1></br>**********************************************')
+		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMX installer</br></br></br><h1><font color="red">DO NOT EDIT BELOW THIS LINE</h1></br>========================================================================================')
 	//***************************************************************************
 	//******* DSMG Relates Arguments
 	//***************************************************************************

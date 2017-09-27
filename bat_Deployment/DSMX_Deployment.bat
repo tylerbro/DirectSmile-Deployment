@@ -103,10 +103,18 @@ IF "%TRIGGER_BLOCK_LIMIT%" == "" (
 	SET TRIGGER_BLOCK_LIMIT_COMMAND=TRIGGER_BLOCK_LIMIT="%TRIGGER_BLOCK_LIMIT%" )	
 	
 ECHO +------------------------------------------------------------------------------------+
+ECHO Set MSILOG to support custom Installation command		
+ECHO +------------------------------------------------------------------------------------+
+ECHO
+IF "%DSMX_MSILOG%" == "" (
+	SET "MSILOG_COMMAND=" ) ELSE (
+	SET MSILOG_COMMAND=MSILOG="%DSMX_MSILOG%")
+	
+ECHO +------------------------------------------------------------------------------------+
 ECHO Create Optional part of Deployment command for DSMX 
 ECHO +------------------------------------------------------------------------------------+
 ECHO
-SET OPTIONAL_COMMAND=%LANDINGPAGEDATADIR_COMMAND% %TRIGGER_BLOCK_LIMIT_COMMAND% %SHAREDSETTINGSFILE_COMMAND% %DSMXSERVERKEY_COMMAND% %DSMIMASTERURL_COMMAND% %FAILOVERENDPOINT_COMMAND% %DEFAULTREDIRECTURL_COMMAND% %DSMIFRONTENDURL_COMMAND%
+SET OPTIONAL_COMMAND=%LANDINGPAGEDATADIR_COMMAND% %TRIGGER_BLOCK_LIMIT_COMMAND% %SHAREDSETTINGSFILE_COMMAND% %DSMXSERVERKEY_COMMAND% %DSMIMASTERURL_COMMAND% %FAILOVERENDPOINT_COMMAND% %DEFAULTREDIRECTURL_COMMAND% %DSMIFRONTENDURL_COMMAND% %MSILOG_COMMAND%
 
 ECHO %OPTIONAL_COMMAND%
 
@@ -148,7 +156,10 @@ ECHO +--------------------------------------------------------------------------
 ECHO
 
 IF "%DEBUG_RUN%" == "true" (
-  GOTO DEBUG )
+	GOTO DEBUG )
+
+IF "%DSMX_DEPLOY%" == "false" (
+	GOTO DEBUG )
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create BackUp of DSMX Configuration file and DSMComponents directories

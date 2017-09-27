@@ -70,8 +70,11 @@ IF "%MSILOG%" == "" (
 	
 IF "%DEBUG_RUN%" == "true" (
 	GOTO DEBUG )
-	
-	
+
+IF "%DSMG_DEPLOY%" == "false" (
+		GOTO DEBUG )
+
+
 ECHO +------------------------------------------------------------------------------------+
 ECHO Main part of Installation Service command
 ECHO +------------------------------------------------------------------------------------+

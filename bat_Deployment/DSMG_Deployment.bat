@@ -5,6 +5,15 @@ chcp 1252
 
 cd /d "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Client"
 
+IF NOT DEFINED DSMG_INSTALLER_FILE_PATH (
+	ECHO DSMG_INSTALLER_FILE_PATH was left blank. Skipping DSMG installation.
+	EXIT 0 )
+
+IF NOT EXIST "%DSMG_INSTALLER_FILE_PATH%" (
+	ECHO DSMG_INSTALLER_FILE_PATH file location could not be found. Skipping DSMG installation.
+	ECHO DSMG_INSTALLER_FILE_PATH attempted: %DSMG_INSTALLER_FILE_PATH%
+	EXIT 1 )
+	
 SET "DIRECTSMILE_AZURE_CDN=http://directsmile.blob.core.windows.net/installer"
 
 IF "%DSMG_DEPLOY_VERSION%" == "DSMG_LATEST_RELEASE" (
@@ -72,9 +81,6 @@ IF "%DEBUG_RUN%" == "true" (
 	GOTO DEBUG )
 
 IF "%DSMG_DEPLOY%" == "false" (
-		EXIT 0 )
-		
-IF NOT EXIST DSMG_INSTALLER_FILE_PATH (
 		EXIT 0 )
 
 ECHO +------------------------------------------------------------------------------------+

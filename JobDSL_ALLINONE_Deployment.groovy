@@ -193,10 +193,6 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 		choiceParam('DSMI_DEPLOY_VERSION', ['DSMI_SPECIFIC_VERSION','DSMI_LATEST_RELEASE','DSMI_DSF_RELEASE'],'')
 		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_SPECIFIC_VERSION','DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE'],'')
 		booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screen only. Target system will not be touched. And it does not trigger downstream jobs</p>')
-		booleanParam('DSMG_DEPLOY', false, '<p>If DSMG_DEPLOY=True, DSMG Deployment commands will be executed. If DSMG_DEPLOY=False, then Target system will not update DSMG component.</p>')
-		booleanParam('DSMI_DEPLOY', false, '<p>If DSMI_DEPLOY=True, DSMI Deployment commands will be executed. If DSMI_DEPLOY=False, then Target system will not update DSMI component.</p>')
-		booleanParam('DSMX_DEPLOY', false, '<p>If DSMX_DEPLOY=True, DSMX Deployment commands will be executed. If DSMX_DEPLOY=False, then Target system will not update DSMX component.</p>')		
-		
 	//***************************************************************************
 	//******* DSMG Relates Arguments
 	//***************************************************************************
@@ -213,8 +209,11 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 		stringParam('DSMXURL',DSMXURL,'<h3><font color="red">Only Valid &gt; Ver7.2.0.60</font></h3></br> <p>DSMXURL="http://servername/dsmx"</p><p>(In case of SmartServer deployment)</p></br></br> <p>Please add this parameter to the dsmi installer call to get the base url of DSMX correctly set in the DSMI settings.</p></br>')
 		stringParam('WEBSITES', WEBSITES, '<p>UNC Path for the root website directory</p><br/><p>example: c:\\inetpub\\wwwroot</p>')
 	//***************************************************************************
-	//******* DSMI and DSMX common Arguments - Optional configuration
+	//******* DSM Job configuration. If path is left blank, it will not proceed install that component. Handled in batch locations 
 	//***************************************************************************
+		booleanParam('DSMG_DEPLOY', true, '<p>If DSMG_DEPLOY=True, DSMG Deployment commands will be executed. If DSMG_DEPLOY=False, then Target system will not update DSMG component.</p>')
+		booleanParam('DSMI_DEPLOY', true, '<p>If DSMI_DEPLOY=True, DSMI Deployment commands will be executed. If DSMI_DEPLOY=False, then Target system will not update DSMI component.</p>')
+		booleanParam('DSMX_DEPLOY', true, '<p>If DSMX_DEPLOY=True, DSMX Deployment commands will be executed. If DSMX_DEPLOY=False, then Target system will not update DSMX component.</p>')		
 	//***************************************************************************
 	//******* DSMI and DSMX common Arguments - Set Default Credential ID
 	//***************************************************************************

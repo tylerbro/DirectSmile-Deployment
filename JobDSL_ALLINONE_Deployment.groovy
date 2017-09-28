@@ -1,20 +1,19 @@
 // This is All in one DirectSmile program deployment job generation groovy script
 //ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input
 
-
 //***************************************************************************
 //******* General Arguments
 //***************************************************************************
 if (!SERVERNAME) {
-	echo "Build fails because SERVERNAME variable was not provided"
+	println "Build fails because SERVERNAME variable was not provided"
 	exit 1
 }
-if (binding.variables.get('FQDN')) {
-	echo "Build fails because FQDN variable was not provided"
+if (!FQDN)) {
+	println "Build fails because FQDN variable was not provided"
 	exit 1
 }
-If (binding.variables.get('DATABASE_SERVER')) {
-	echo "Build fails because DATABASE_SERVER variable was not provided"
+If (!DATABASE_SERVER)) {
+	println "Build fails because DATABASE_SERVER variable was not provided"
 	exit 1
 }
 	

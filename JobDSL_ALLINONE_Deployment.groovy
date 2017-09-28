@@ -1,5 +1,23 @@
 // This is All in one DirectSmile program deployment job generation groovy script
 //ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input
+
+
+//***************************************************************************
+//******* General Arguments
+//***************************************************************************
+if (binding.variables.get(SERVERNAME) {
+	assert condition : "Build fails because SERVERNAME variable was not provided"
+	exit 1
+}
+if (binding.variables.get(FQDN) {
+	assert condition : "Build fails because FQDN variable was not provided"
+	exit 1
+}
+If (binding.variables.get(DATABASE_SERVER) {
+	assert condition : "Build fails because DATABASE_SERVER variable was not provided"
+	exit 1
+}
+	
 if (binding.variables.get('DEBUG_RUN')) {
 	//Inherite value from env var comes Jenkins
 	//This part set default value for Credential ID(SQL_CREDENTIAL,IISAPPLICATIONPOOLIDENTITY_CREDENTIAL), to avoid any failure due to missing ID specification.
@@ -84,7 +102,7 @@ if (binding.variables.get('DEBUG_RUN')) {
 	//***************************************************************************
 	//******* DSMI and DSMX common Arguments - SQL Database
 	//***************************************************************************
-		SQLINSTANCENAME = '.'
+		SQLINSTANCENAME=DATABASE_SERVER.toUpperCase()
 		DSMI_SQLDATABASENAME = SERVERNAME + '_dsmodb'
 		IMGDBNAME = SERVERNAME + '_dsmoImages'
 		DSMX_SQLDATABASENAME = SERVERNAME + '_LP3_DSM'	

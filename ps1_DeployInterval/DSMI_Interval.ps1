@@ -1,4 +1,4 @@
 if ($env:DSMI_Deploy -eq $true)
 {
-SLEEP 60
+SLEEP 10
 }

@@ -5,7 +5,7 @@
 //***************************************************************************
 //******* General Arguments
 //***************************************************************************
-if !(SERVERNAME) {
+if !SERVERNAME {
 	assert condition : "Build fails because SERVERNAME variable was not provided"
 	exit 1
 }

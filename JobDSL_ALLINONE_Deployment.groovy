@@ -8,11 +8,11 @@ if (!SERVERNAME) {
 	println "Build fails because SERVERNAME variable was not provided"
 	exit 1
 }
-if (!FQDN)) {
+if (!FQDN) {
 	println "Build fails because FQDN variable was not provided"
 	exit 1
 }
-If (!DATABASE_SERVER)) {
+If (!DATABASE_SERVER) {
 	println "Build fails because DATABASE_SERVER variable was not provided"
 	exit 1
 }

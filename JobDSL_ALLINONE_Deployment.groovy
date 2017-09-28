@@ -2,21 +2,15 @@
 //ALL Upper case indicates Environmental Variable comes from Jenkins as Parameter input
 
 //***************************************************************************
-//******* General Arguments
+//******* Fail if any of the three asked variables are not provided
 //***************************************************************************
-if (!SERVERNAME) {
-	println "Build fails because SERVERNAME variable was not provided"
-	throw new RuntimeException('Build fails because SERVERNAME variable was not provided')
-}
-if (!FQDN) {
-	println "Build fails because FQDN variable was not provided"
-	exit 1
-}
-If (!DATABASE_SERVER) {
-	println "Build fails because DATABASE_SERVER variable was not provided"
-	exit 1
-}
-	
+if (!SERVERNAME) { throw new RuntimeException('Build fails because SERVERNAME variable was not provided') }
+if (!FQDN) { throw new RuntimeException('Build fails because FQDN variable was not provided') }
+If (!DATABASE_SERVER) {	throw new RuntimeException('Build fails because DATABASE_SERVER variable was not provided') }
+
+//***************************************************************************
+//******* Bulk of build
+//***************************************************************************
 if (binding.variables.get('DEBUG_RUN')) {
 	//Inherite value from env var comes Jenkins
 	//This part set default value for Credential ID(SQL_CREDENTIAL,IISAPPLICATIONPOOLIDENTITY_CREDENTIAL), to avoid any failure due to missing ID specification.

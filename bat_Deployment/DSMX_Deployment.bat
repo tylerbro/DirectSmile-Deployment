@@ -159,7 +159,10 @@ IF "%DEBUG_RUN%" == "true" (
 	GOTO DEBUG )
 
 IF "%DSMX_DEPLOY%" == "false" (
-	GOTO DEBUG )
+	EXIT 0 )
+	
+IF NOT EXIST DSMX_INSTALLER_FILE_PATH (
+	EXIT 0 )
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Create BackUp of DSMX Configuration file and DSMComponents directories

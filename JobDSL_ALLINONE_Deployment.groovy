@@ -6,7 +6,7 @@
 //***************************************************************************
 if (!SERVERNAME) { throw new RuntimeException('Build fails because SERVERNAME variable was not provided') }
 if (!FQDN) { throw new RuntimeException('Build fails because FQDN variable was not provided') }
-If (!DATABASE_SERVER) {	throw new RuntimeException('Build fails because DATABASE_SERVER variable was not provided') }
+if (!DATABASE_SERVER) {	throw new RuntimeException('Build fails because DATABASE_SERVER variable was not provided') }
 
 //***************************************************************************
 //******* Bulk of build

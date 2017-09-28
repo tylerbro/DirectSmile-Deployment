@@ -73,7 +73,9 @@ IF "%DEBUG_RUN%" == "true" (
 
 IF "%DSMG_DEPLOY%" == "false" (
 		GOTO DEBUG )
-
+		
+IF NOT EXIST DSMG_INSTALLER_FILE_PATH (
+		GOTO DEBUG )
 
 ECHO +------------------------------------------------------------------------------------+
 ECHO Main part of Installation Service command

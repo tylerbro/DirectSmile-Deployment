@@ -5,15 +5,15 @@
 //***************************************************************************
 //******* General Arguments
 //***************************************************************************
-if (binding.variables.get(SERVERNAME) {
+if (binding.variables.get(SERVERNAME)) {
 	assert condition : "Build fails because SERVERNAME variable was not provided"
 	exit 1
 }
-if (binding.variables.get(FQDN) {
+if (binding.variables.get(FQDN)) {
 	assert condition : "Build fails because FQDN variable was not provided"
 	exit 1
 }
-If (binding.variables.get(DATABASE_SERVER) {
+If (binding.variables.get(DATABASE_SERVER)) {
 	assert condition : "Build fails because DATABASE_SERVER variable was not provided"
 	exit 1
 }

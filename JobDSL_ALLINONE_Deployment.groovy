@@ -182,8 +182,8 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 	//***************************************************************************
 	//******* General Arguments ********
         	stringParam('DSMG_INSTALLER_FILE_PATH', DSMG_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMG installer. If left blank, then Target system will not update DSMG component.')
-		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMI installer. If left blank, then Target system will not update DSMI component.')')
-		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMX installer. If left blank, then Target system will not update DSMX component.')</br></br></br><h1><font color="red">DO NOT EDIT BELOW THIS LINE</h1></br><h1>=========================</h1></br>')
+		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMI installer. If left blank, then Target system will not update DSMI component.')
+		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMX installer. If left blank, then Target system will not update DSMX component.</br></br></br><h1><font color="red">DO NOT EDIT BELOW THIS LINE</h1></br><h1>=========================</h1></br>')
 		stringParam('FQDN', FQDN ,'<p>Fully Qualified Domain Name</p>')
 		stringParam('SQLINSTANCENAME',SQLINSTANCENAME,'Instance name of your SQL Server<p>.\\SQLEXPRESS</p>')
 	//***************************************************************************

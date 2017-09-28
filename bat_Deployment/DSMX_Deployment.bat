@@ -5,6 +5,15 @@ chcp 1252
 
 cd /d "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Client"
 
+IF NOT DEFINED DSMX_INSTALLER_FILE_PATH (
+	ECHO DSMX_INSTALLER_FILE_PATH was left blank. Skipping DSMX installation.
+	EXIT 0 )
+
+IF NOT EXIST "%DSMX_INSTALLER_FILE_PATH%" (
+	ECHO DSMX_INSTALLER_FILE_PATH file location could not be found. Skipping DSMX installation.
+	ECHO DSMX_INSTALLER_FILE_PATH attempted: %DSMX_INSTALLER_FILE_PATH%
+	EXIT 1 )
+
 SET "DIRECTSMILE_AZURE_CDN=http://directsmile.blob.core.windows.net/installer"
 
 IF "%DSMX_DEPLOY_VERSION%" == "DSMX_LATEST_RELEASE" (
@@ -159,9 +168,6 @@ IF "%DEBUG_RUN%" == "true" (
 	GOTO DEBUG )
 
 IF "%DSMX_DEPLOY%" == "false" (
-	EXIT 0 )
-	
-IF NOT EXIST DSMX_INSTALLER_FILE_PATH (
 	EXIT 0 )
 
 ECHO +------------------------------------------------------------------------------------+

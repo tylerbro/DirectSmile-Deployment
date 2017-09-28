@@ -211,7 +211,10 @@ IF "%DEBUG_RUN%" == "true" (
 GOTO DEBUG )
 
 IF "%DSMI_DEPLOY%" == "false" (
-GOTO DEBUG )
+EXIT 0 )
+
+IF NOT EXIST DSMI_INSTALLER_FILE_PATH (
+EXIT 0 )
 
 IF "%BACKUP_DSMICONFIGURATIONFILES%" == "true" (
 ECHO +------------------------------------------------------------------------------------+

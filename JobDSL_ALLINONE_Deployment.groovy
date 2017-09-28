@@ -183,16 +183,16 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 	//******* General Arguments ********
         	stringParam('DSMG_INSTALLER_FILE_PATH', DSMG_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMG installer. If left blank, then Target system will not update DSMG component.')
 		stringParam('DSMI_INSTALLER_FILE_PATH', DSMI_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMI installer. If left blank, then Target system will not update DSMI component.')
-		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMX installer. If left blank, then Target system will not update DSMX component.</br></br></br><h1><font color="red">DO NOT EDIT BELOW THIS LINE</h1></br><h1>=========================</h1></br>')
-		stringParam('FQDN', FQDN ,'<p>Fully Qualified Domain Name</p>')
-		stringParam('SQLINSTANCENAME',SQLINSTANCENAME,'Instance name of your SQL Server<p>.\\SQLEXPRESS</p>')
+		stringParam('DSMX_INSTALLER_FILE_PATH', DSMX_INSTALLER_FILE_PATH, 'Absolute File Path or URL to DSMX installer. If left blank, then Target system will not update DSMX component.</br></br></br><h1><font color="red">DO NOT EDIT BELOW THIS LINE</h1></br><h1>===========================</h1></br>')
+		booleanParam('DEBUG_RUN', false, 'If DEBUG_RUN=True all commands will be echoed to the screen only. Target system will not be touched. And it does not trigger downstream jobs')
+		stringParam('FQDN', FQDN ,'Fully Qualified Domain Name')
+		stringParam('SQLINSTANCENAME',SQLINSTANCENAME,'Instance name of your SQL Server')
 	//***************************************************************************
 	//******* Deployment Version selector. For IHS, dropbox locations are required. No need to change these.
 	//***************************************************************************
 		choiceParam('DSMG_DEPLOY_VERSION',['DSMG_SPECIFIC_VERSION','DSMG_LATEST_RELEASE','DSMG_DSF_RELEASE'],'')
 		choiceParam('DSMI_DEPLOY_VERSION', ['DSMI_SPECIFIC_VERSION','DSMI_LATEST_RELEASE','DSMI_DSF_RELEASE'],'')
 		choiceParam('DSMX_DEPLOY_VERSION', ['DSMX_SPECIFIC_VERSION','DSMX_LATEST_RELEASE','DSMX_DSF_RELEASE'],'')
-		booleanParam('DEBUG_RUN', false, '<p>If DEBUG_RUN=True all commands will be echoed to the screen only. Target system will not be touched. And it does not trigger downstream jobs</p>')
 	//***************************************************************************
 	//******* DSMG Relates Arguments
 	//***************************************************************************
@@ -211,9 +211,9 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 	//***************************************************************************
 	//******* DSM Job configuration. If path is left blank, it will not proceed install that component. Handled in batch locations 
 	//***************************************************************************
-		booleanParam('DSMG_DEPLOY', true, '<p>If DSMG_DEPLOY=True, DSMG Deployment commands will be executed. If DSMG_DEPLOY=False, then Target system will not update DSMG component.</p>')
-		booleanParam('DSMI_DEPLOY', true, '<p>If DSMI_DEPLOY=True, DSMI Deployment commands will be executed. If DSMI_DEPLOY=False, then Target system will not update DSMI component.</p>')
-		booleanParam('DSMX_DEPLOY', true, '<p>If DSMX_DEPLOY=True, DSMX Deployment commands will be executed. If DSMX_DEPLOY=False, then Target system will not update DSMX component.</p>')		
+		booleanParam('DSMG_DEPLOY', true, '<p>Deprecated but still needed for batch files. Handled now by installer path</p>')
+		booleanParam('DSMI_DEPLOY', true, '<p>Deprecated but still needed for batch files. Handled now by installer path</p>')
+		booleanParam('DSMX_DEPLOY', true, '<p>Deprecated but still needed for batch files. Handled now by installer path</p>')
 	//***************************************************************************
 	//******* DSMI and DSMX common Arguments - Set Default Credential ID
 	//***************************************************************************

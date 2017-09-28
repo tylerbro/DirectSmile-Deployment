@@ -5,6 +5,15 @@ chcp 1252
 
 cd /d "C:\Program Files (x86)\DirectSmile\DirectSmile Installation Service\Client"
 
+IF NOT DEFINED DSMI_INSTALLER_FILE_PATH (
+	ECHO DSMI_INSTALLER_FILE_PATH was left blank. Skipping DSMI installation.
+	EXIT 0 )
+
+IF NOT EXIST "%DSMI_INSTALLER_FILE_PATH%" (
+	ECHO DSMI_INSTALLER_FILE_PATH file location could not be found. Skipping DSMI installation.
+	ECHO DSMI_INSTALLER_FILE_PATH attempted: %DSMI_INSTALLER_FILE_PATH%
+	EXIT 1 )
+
 SET "DIRECTSMILE_AZURE_CDN=http://directsmile.blob.core.windows.net/installer"
 
 IF "%DSMI_DEPLOY_VERSION%" == "DSMI_LATEST_RELEASE" (
@@ -211,9 +220,6 @@ IF "%DEBUG_RUN%" == "true" (
 GOTO DEBUG )
 
 IF "%DSMI_DEPLOY%" == "false" (
-EXIT 0 )
-
-IF NOT EXIST DSMI_INSTALLER_FILE_PATH (
 EXIT 0 )
 
 IF "%BACKUP_DSMICONFIGURATIONFILES%" == "true" (

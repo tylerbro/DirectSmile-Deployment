@@ -316,9 +316,6 @@ job('DirectSmile__Deployment_'+ SERVERNAME) {
 		}
 	}
 	steps {
-		dsl {
-			external('JobDSL_ALLINONE_Deployment.groovy')
-		}
 		batchFile('bat_Deployment/DSMG_Deployment.bat')
 		powerShell(readFileFromWorkspace ('ps1_DeployInterval/DSMG_Interval.ps1'))
 		batchFile('bat_Deployment/DSMI_Deployment.bat')

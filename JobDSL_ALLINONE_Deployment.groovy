@@ -6,7 +6,7 @@
 //***************************************************************************
 if (!SERVERNAME) {
 	println "Build fails because SERVERNAME variable was not provided"
-	exit 1
+	throw new RuntimeException('Build fails because SERVERNAME variable was not provided')
 }
 if (!FQDN) {
 	println "Build fails because FQDN variable was not provided"
